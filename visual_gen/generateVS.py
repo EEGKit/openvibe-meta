@@ -31,8 +31,10 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description='Generate merged Visual Studio project for OpenViBE')
 	parser.add_argument('-o', '--outsln', type=str, default="OpenViBE-Meta.sln", help='Output SLN file')
 	parser.add_argument('-b', '--builddir', type=str, default="build", help='Build directory where Visual Studio Solutions are located')
+	parser.add_argument('-p', '--platformtarget', type=str, default="x86", help='x86 or x64')	
 	args = parser.parse_args()
 	build_dir = abspath(args.builddir)
+	platform_target = args.platformtarget
 	dist_dir = joinpath(dirname(build_dir), 'dist')
 	outfile = args.outsln
 	script_dir = dirname(realpath(__file__))
@@ -42,9 +44,9 @@ if __name__ == "__main__":
 	
 	context = { 'proj_list' : [], 'proj_conf_platforms' : [], 'nested_projs' : {}}
 	projects = [ 
-		('SDK', "10313F85-EFD9-42AB-BF90-643A406FDD99", normpath(joinpath(build_dir, "sdk", "OpenVIBE.sln"))), 
-		("Designer", "EEB9310A-3238-432D-9EAD-CDFCB35054D4", normpath(joinpath(build_dir, "designer", "Designer.sln"))), 
-		("Extras", "3F5EF7F3-0F10-4F2E-ACEB-3B1326E3DA48", normpath(joinpath(build_dir, "extras", "OpenVIBE.sln")))]
+		('SDK', "10313F85-EFD9-42AB-BF90-643A406FDD99", normpath(joinpath(build_dir, "sdk-" + platform_target , "OpenVIBE.sln"))), 
+		("Designer", "EEB9310A-3238-432D-9EAD-CDFCB35054D4", normpath(joinpath(build_dir, "designer-" + platform_target, "Designer.sln"))), 
+		("Extras", "3F5EF7F3-0F10-4F2E-ACEB-3B1326E3DA48", normpath(joinpath(build_dir, "extras-" + platform_target, "OpenVIBE.sln")))]
 	build_types = ['Debug', 'Release', 'MinSizeRel', 'RelWithDebInfo']
 	
 	# Generate config file for designer-extras project

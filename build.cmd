@@ -8,7 +8,8 @@ set base_dir=%~dp0
 set build_dir_base=%base_dir%\build
 set install_dir_base=%base_dir%\dist
 set dependencies_dir=%base_dir%\dependencies
-set UserDataSubdir=openvibe-2.1.0
+set UserDataSubdir=openvibe-2.2.0
+set PlatformTarget=x86
 
 :parameter_parse
 if /i "%1"=="-h" (
@@ -27,7 +28,7 @@ if /i "%1"=="-h" (
 	SHIFT
 	Goto parameter_parse
 ) else if /i "%1"=="--debug" (
-	set BuildType=Debug	
+	set BuildType=Debug
 	set BuildOption=--debug
 	SHIFT
 	Goto parameter_parse
@@ -73,54 +74,64 @@ if /i "%1"=="-h" (
 	SHIFT
 	SHIFT
 	Goto parameter_parse
+) else if /i "%1" == "--platform-target" (
+	set PlatformTarget=%2
+	SHIFT
+	SHIFT
+	Goto parameter_parse
 ) else if /i "%1" neq "" (
 	echo Unknown parameter "%1"
 	exit /b 1
 )
 
+if /i "%PlatformTarget%" neq "x86" (
+	SET dependencies_dir=%dependencies_dir%_%PlatformTarget%
+)
+
 if not defined multibuild_all (
+	REM the default build
+	
 	echo Building sdk
 	cd %base_dir%\sdk\scripts
-	call windows-build.cmd --no-pause %vsbuild% %BuildOption% --build-dir %build_dir_base%\sdk-%BuildType% --install-dir %install_dir_base%\sdk-%BuildType% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --build-unit --build-validation --test-data-dir %dependencies_dir%\test-input  
+	call windows-build.cmd --no-pause %vsbuild% %BuildOption% --build-dir %build_dir_base%\sdk-%BuildType%-%PlatformTarget% --install-dir %install_dir_base%\sdk-%BuildType%-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --build-unit --build-validation --test-data-dir %dependencies_dir%\test-input --platform-target %PlatformTarget%  
 	call :check_errors !errorlevel! "!BuildType! SDK" || exit /b !_errlevel!
 
 	echo Building designer
 	cd %base_dir%\designer\scripts
-	call windows-build.cmd --no-pause %vsbuild% %BuildOption% --build-dir %build_dir_base%\designer-%BuildType% --install-dir %install_dir_base%\designer-%BuildType% --sdk %install_dir_base%\sdk-%BuildType% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir%
+	call windows-build.cmd --no-pause %vsbuild% %BuildOption% --build-dir %build_dir_base%\designer-%BuildType%-%PlatformTarget% --install-dir %install_dir_base%\designer-%BuildType%-%PlatformTarget% --sdk %install_dir_base%\sdk-%BuildType%-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --platform-target %PlatformTarget%
 	call :check_errors !errorlevel! "!BuildType! Designer" || exit /b !_errlevel!
 
 	echo Building extras
 	cd %base_dir%\extras\scripts
-	call win32-build.cmd --no-pause %vsbuild% %BuildOption% --build-dir %build_dir_base%\extras-%BuildType% --install-dir %install_dir_base%\extras-%BuildType% --sdk %install_dir_base%\sdk-%BuildType% --designer %install_dir_base%\designer-%BuildType% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir%
+	call win32-build.cmd --no-pause %vsbuild% %BuildOption% --build-dir %build_dir_base%\extras-%BuildType%-%PlatformTarget% --install-dir %install_dir_base%\extras-%BuildType%-%PlatformTarget% --sdk %install_dir_base%\sdk-%BuildType%-%PlatformTarget% --designer %install_dir_base%\designer-%BuildType%-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --platform-target %PlatformTarget%
 	call :check_errors !errorlevel! "!BuildType! Extras" || exit /b !_errlevel!
 	
 ) else (
+	REM a build that creates a visual studio solution
+	
 	echo Building sdk
 	cd %base_dir%\sdk\scripts
-	call windows-build.cmd --no-pause --vsbuild --debug --build-dir %build_dir_base%\sdk --install-dir %install_dir_base%\sdk --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --build-unit --build-validation --test-data-dir %dependencies_dir%\test-input 
+	call windows-build.cmd --no-pause --vsbuild --debug --build-dir %build_dir_base%\sdk-%PlatformTarget% --install-dir %install_dir_base%\sdk-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --build-unit --build-validation --test-data-dir %dependencies_dir%\test-input --platform-target %PlatformTarget%
 	call :check_errors !errorlevel! "Debug SDK" || exit /b !_errlevel!
 	
-	call windows-build.cmd --no-pause --vsbuild --release --build-dir %build_dir_base%\sdk --install-dir %install_dir_base%\sdk --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --build-unit --build-validation --test-data-dir %dependencies_dir%\test-input  
+	call windows-build.cmd --no-pause --vsbuild --release --build-dir %build_dir_base%\sdk-%PlatformTarget% --install-dir %install_dir_base%\sdk-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --build-unit --build-validation --test-data-dir %dependencies_dir%\test-input --platform-target %PlatformTarget%
 	call :check_errors !errorlevel! "Release SDK" || exit /b !_errlevel!
-	
 	
 	echo Building designer
 	cd %base_dir%\designer\scripts
-	call windows-build.cmd --no-pause --vsbuild --debug --build-dir %build_dir_base%\designer --install-dir %install_dir_base%\designer --sdk %install_dir_base%\sdk --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir%
+	call windows-build.cmd --no-pause --vsbuild --debug --build-dir %build_dir_base%\designer-%PlatformTarget% --install-dir %install_dir_base%\designer-%PlatformTarget% --sdk %install_dir_base%\sdk-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --platform-target %PlatformTarget%
 	call :check_errors !errorlevel! "Debug Designer" || exit /b !_errlevel!
 	
-	call windows-build.cmd --no-pause --vsbuild --release --build-dir %build_dir_base%\designer --install-dir %install_dir_base%\designer --sdk %install_dir_base%\sdk --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir%
+	call windows-build.cmd --no-pause --vsbuild --release --build-dir %build_dir_base%\designer-%PlatformTarget% --install-dir %install_dir_base%\designer-%PlatformTarget% --sdk %install_dir_base%\sdk-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --platform-target %PlatformTarget%
 	call :check_errors !errorlevel! "Release Designer" || exit /b !_errlevel!
-	
-	
+
 	echo Building extras
 	cd %base_dir%\extras\scripts
-	call win32-build.cmd --no-pause --vsbuild --debug --build-dir %build_dir_base%\extras --install-dir %install_dir_base%\extras --sdk %install_dir_base%\sdk --designer %install_dir_base%\designer --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir%
+	call win32-build.cmd --no-pause --vsbuild --debug --build-dir %build_dir_base%\extras-%PlatformTarget% --install-dir %install_dir_base%\extras-%PlatformTarget% --sdk %install_dir_base%\sdk-%PlatformTarget% --designer %install_dir_base%\designer-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --platform-target %PlatformTarget%
 	call :check_errors !errorlevel! "Debug Extras" || exit /b !_errlevel!
 	
-	call win32-build.cmd --no-pause --vsbuild --release --build-dir %build_dir_base%\extras --install-dir %install_dir_base%\extras --sdk %install_dir_base%\sdk --designer %install_dir_base%\designer --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir%
+	call win32-build.cmd --no-pause --vsbuild --release --build-dir %build_dir_base%\extras-%PlatformTarget% --install-dir %install_dir_base%\extras-%PlatformTarget% --sdk %install_dir_base%\sdk-%PlatformTarget% --designer %install_dir_base%\designer-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --platform-target %PlatformTarget%
 	call :check_errors !errorlevel! "Release Extras" || exit /b !_errlevel!
-	
 	
 	echo Generating meta project
 	where /q python
@@ -130,7 +141,7 @@ if not defined multibuild_all (
 	) else (
 		set my_python=python
 	)
-	!my_python! %base_dir%\visual_gen\generateVS.py --builddir %build_dir_base% --outsln %build_dir_base%\OpenViBE-Meta.sln
+	!my_python! %base_dir%\visual_gen\generateVS.py --builddir %build_dir_base% --outsln %build_dir_base%\OpenViBE-Meta-%PlatformTarget%.sln
 	if !errorlevel! neq 0 (
 		echo Error constructing the meta .sln file
 		exit /b !errorlevel!
