@@ -68,9 +68,11 @@ call :check_errors %errorlevel% "Designer" || exit /b !_errlevel!
 
 echo Installing OpenViBE extras dependencies
 cd %base_dir%\extras\scripts
-powershell.exe -NoProfile -ExecutionPolicy Bypass -file "%base_dir%\sdk\scripts\windows-get-dependencies.ps1" -manifest_file .\windows-dependencies.txt -dest_dir %dep_dir_x86%
+powershell.exe -NoProfile -ExecutionPolicy Bypass -file "%base_dir%\sdk\scripts\windows-get-dependencies.ps1" -manifest_file .\windows-dependencies-x86.txt -dest_dir %dep_dir_x86%
 call :check_errors !errorlevel! "Extras" || exit /b !_errlevel!
 
+powershell.exe -NoProfile -ExecutionPolicy Bypass -file "%base_dir%\sdk\scripts\windows-get-dependencies.ps1" -manifest_file .\windows-dependencies-x64.txt -dest_dir %dep_dir_x64%
+call :check_errors !errorlevel! "Extras" || exit /b !_errlevel!
 
 echo Creating OpenViBE extras dependency path setup script
 set "dependency_cmd=%dep_dir_x86%\win32-dependencies.cmd"
