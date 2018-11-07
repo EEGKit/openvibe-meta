@@ -141,7 +141,7 @@ if not defined multibuild_all (
 	) else (
 		set my_python=python
 	)
-	!my_python! %base_dir%\visual_gen\generateVS.py --builddir %build_dir_base% --outsln %build_dir_base%\OpenViBE-Meta-%PlatformTarget%.sln
+	!my_python! %base_dir%\visual_gen\generateVS.py --platformtarget %PlatformTarget% --builddir %build_dir_base% --outsln %build_dir_base%\OpenViBE-Meta-%PlatformTarget%.sln
 	if !errorlevel! neq 0 (
 		echo Error constructing the meta .sln file
 		exit /b !errorlevel!
