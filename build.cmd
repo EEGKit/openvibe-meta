@@ -13,12 +13,12 @@ set PlatformTarget=x86
 
 :parameter_parse
 if /i "%1"=="-h" (
-	echo Usage: win32-build.cmd [Build Type] [Init-env Script]
+	echo Usage: build.cmd [Build Type] [Init-env Script]
 	echo -- Build Type option can be : --release (-r^), --debug (-d^). Default is Release.
 	pause
 	exit 0
 ) else if /i "%1"=="--help" (
-	echo Usage: win32-build.cmd [Build Type] [Init-env Script]
+	echo Usage: build.cmd [Build Type] [Init-env Script]
 	echo -- Build Type option can be : --release (-r^), --debug (-d^). Default is Release.
 	pause
 	exit 0
@@ -103,7 +103,7 @@ if not defined multibuild_all (
 
 	echo Building extras
 	cd %base_dir%\extras\scripts
-	call win32-build.cmd --no-pause %vsbuild% %BuildOption% --build-dir %build_dir_base%\extras-%BuildType%-%PlatformTarget% --install-dir %install_dir_base%\extras-%BuildType%-%PlatformTarget% --sdk %install_dir_base%\sdk-%BuildType%-%PlatformTarget% --designer %install_dir_base%\designer-%BuildType%-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --platform-target %PlatformTarget%
+	call windows-build.cmd --no-pause %vsbuild% %BuildOption% --build-dir %build_dir_base%\extras-%BuildType%-%PlatformTarget% --install-dir %install_dir_base%\extras-%BuildType%-%PlatformTarget% --sdk %install_dir_base%\sdk-%BuildType%-%PlatformTarget% --designer %install_dir_base%\designer-%BuildType%-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --platform-target %PlatformTarget%
 	call :check_errors !errorlevel! "!BuildType! Extras" || exit /b !_errlevel!
 	
 ) else (
@@ -127,10 +127,10 @@ if not defined multibuild_all (
 
 	echo Building extras
 	cd %base_dir%\extras\scripts
-	call win32-build.cmd --no-pause --vsbuild --debug --build-dir %build_dir_base%\extras-%PlatformTarget% --install-dir %install_dir_base%\extras-%PlatformTarget% --sdk %install_dir_base%\sdk-%PlatformTarget% --designer %install_dir_base%\designer-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --platform-target %PlatformTarget%
+	call windows-build.cmd --no-pause --vsbuild --debug --build-dir %build_dir_base%\extras-%PlatformTarget% --install-dir %install_dir_base%\extras-%PlatformTarget% --sdk %install_dir_base%\sdk-%PlatformTarget% --designer %install_dir_base%\designer-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --platform-target %PlatformTarget%
 	call :check_errors !errorlevel! "Debug Extras" || exit /b !_errlevel!
 	
-	call win32-build.cmd --no-pause --vsbuild --release --build-dir %build_dir_base%\extras-%PlatformTarget% --install-dir %install_dir_base%\extras-%PlatformTarget% --sdk %install_dir_base%\sdk-%PlatformTarget% --designer %install_dir_base%\designer-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --platform-target %PlatformTarget%
+	call windows-build.cmd --no-pause --vsbuild --release --build-dir %build_dir_base%\extras-%PlatformTarget% --install-dir %install_dir_base%\extras-%PlatformTarget% --sdk %install_dir_base%\sdk-%PlatformTarget% --designer %install_dir_base%\designer-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --platform-target %PlatformTarget%
 	call :check_errors !errorlevel! "Release Extras" || exit /b !_errlevel!
 	
 	echo Generating meta project

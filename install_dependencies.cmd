@@ -75,20 +75,20 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -file "%base_dir%\sdk\scripts\
 call :check_errors !errorlevel! "Extras" || exit /b !_errlevel!
 
 echo Creating OpenViBE extras dependency path setup script
-set "dependency_cmd=%dep_dir_x86%\win32-dependencies.cmd"
+set "dependency_cmd=%dep_dir_x86%\windows-dependencies.cmd"
 echo @ECHO OFF >%dependency_cmd%
 echo. >>%dependency_cmd%
 echo SET "dependencies_base=%dep_dir_x86%" >>%dependency_cmd%
 echo. >>%dependency_cmd%
-type %base_dir%\extras\scripts\win32-dependencies.cmd-base >>%dependency_cmd%
+type %base_dir%\extras\scripts\windows-dependencies.cmd-base >>%dependency_cmd%
 
 echo Creating OpenViBE extras dependency path setup script (64bit)
-set "dependency_cmd=%dep_dir_x64%\win32-dependencies.cmd"
+set "dependency_cmd=%dep_dir_x64%\windows-dependencies.cmd"
 echo @ECHO OFF >%dependency_cmd%
 echo. >>%dependency_cmd%
 echo SET "dependencies_base=%dep_dir_x64%" >>%dependency_cmd%
 echo. >>%dependency_cmd%
-type %base_dir%\extras\scripts\win32-dependencies.cmd-base >>%dependency_cmd%
+type %base_dir%\extras\scripts\windows-dependencies.cmd-base >>%dependency_cmd%
 
 echo Done.
 exit /b 0
