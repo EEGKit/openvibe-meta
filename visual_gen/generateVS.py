@@ -31,8 +31,10 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description='Generate merged Visual Studio project for OpenViBE')
 	parser.add_argument('-o', '--outsln', type=str, default="OpenViBE-Meta.sln", help='Output SLN file')
 	parser.add_argument('-b', '--builddir', type=str, default="build", help='Build directory where Visual Studio Solutions are located')
+	parser.add_argument('-p', '--platformtarget', type=str, default="x86", help='x86 or x64')	
 	args = parser.parse_args()
 	build_dir = abspath(args.builddir)
+	platform_target = args.platformtarget
 	dist_dir = joinpath(dirname(build_dir), 'dist')
 	outfile = args.outsln
 	script_dir = dirname(realpath(__file__))
@@ -40,24 +42,29 @@ if __name__ == "__main__":
 	usertpl_path = joinpath(script_dir, "vcxproj.user-tpl")
 	designerex_path = joinpath(script_dir, "designer-extras.vcxproj-tpl")
 	
-	context = { 'proj_list' : [], 'proj_conf_platforms' : [], 'nested_projs' : {}}
+	if platform_target == "x64" :
+		platform_vs_target = "x64"
+	else:
+		platform_vs_target = "Win32"
+
+	context = { 'proj_list' : [], 'proj_conf_platforms' : [], 'nested_projs' : {}, 'platform_target' : platform_vs_target }
 	projects = [ 
-		('SDK', "10313F85-EFD9-42AB-BF90-643A406FDD99", normpath(joinpath(build_dir, "sdk", "OpenVIBE.sln"))), 
-		("Designer", "EEB9310A-3238-432D-9EAD-CDFCB35054D4", normpath(joinpath(build_dir, "designer", "Designer.sln"))), 
-		("Extras", "3F5EF7F3-0F10-4F2E-ACEB-3B1326E3DA48", normpath(joinpath(build_dir, "extras", "OpenVIBE.sln")))]
+		('SDK', "10313F85-EFD9-42AB-BF90-643A406FDD99", normpath(joinpath(build_dir, "sdk-" + platform_target , "OpenVIBE.sln"))), 
+		("Designer", "EEB9310A-3238-432D-9EAD-CDFCB35054D4", normpath(joinpath(build_dir, "designer-" + platform_target, "Designer.sln"))), 
+		("Extras", "3F5EF7F3-0F10-4F2E-ACEB-3B1326E3DA48", normpath(joinpath(build_dir, "extras-" + platform_target, "OpenVIBE.sln")))]
 	build_types = ['Debug', 'Release', 'MinSizeRel', 'RelWithDebInfo']
 	
 	# Generate config file for designer-extras project
-	ov_env = { type : (joinpath(dist_dir, "Extras".lower(), type, "bin", "openvibe-designer.exe"), 'OV_PATH_ROOT=' + joinpath(dist_dir, "Extras".lower(), type)) for type in build_types}
-	renderToFile(joinpath(build_dir, "designer-extras.vcxproj"), designerex_path, {} )
-	renderToFile(joinpath(build_dir, "designer-extras.vcxproj.user"), usertpl_path, { 'configurations' : ov_env} )
+	ov_env = { type : (joinpath(dist_dir, "extras-" + platform_target, type, "bin", "openvibe-designer.exe"), 'OV_PATH_ROOT=' + joinpath(dist_dir, "extras-" + platform_target, type)) for type in build_types}
+	renderToFile(joinpath(build_dir, "designer-extras.vcxproj"), designerex_path, { 'platform_target' : platform_vs_target } )
+	renderToFile(joinpath(build_dir, "designer-extras.vcxproj.user"), usertpl_path, { 'configurations' : ov_env, 'platform_target' : platform_vs_target } )
 	
 	for folderName, folderId, path_sln in projects :
 		pathprefix = relpath(dirname(path_sln), normpath(dirname(abspath(outfile))))
 		# Sets the correct value for OV_PATH_ROOT; It should be possible to set multiple values separated by newline
 		# Unfortunately due to a bug, this is not always possible, see https://connect.microsoft.com/VisualStudio/feedback/details/727324/msvs10-c-deu-debugger-environment-variables-missing-linefeed
 		# (This is about german VS 2010, but this is also happening on french VS2013)
-		ov_env = { type : (None, 'OV_PATH_ROOT=' + joinpath(dist_dir, folderName.lower(), type.upper())) for type in build_types}
+		ov_env = { type : (None, 'OV_PATH_ROOT=' + joinpath(dist_dir, folderName.lower() + "-" + platform_target, type.upper())) for type in build_types}
 		if not existspath(path_sln) :
 			print(path_sln, 'does not exist !')
 			continue
@@ -77,7 +84,7 @@ if __name__ == "__main__":
 					# Generate .user file
 					projectfile = joinpath(dirname(path_sln), projectPath)
 					userfile = projectfile + ".user"
-					renderToFile(userfile, usertpl_path, { 'configurations' : ov_env} )
+					renderToFile(userfile, usertpl_path, { 'configurations' : ov_env, 'platform_target' : platform_vs_target } )
 				elif line == "Global\n" :
 					for line2 in f :
 						if line2 == "\tGlobalSection(ProjectConfigurationPlatforms) = postSolution\n" :

@@ -15,10 +15,10 @@ EndProject
 {%- endfor %}
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Win32 = Debug|Win32
-		MinSizeRel|Win32 = MinSizeRel|Win32
-		Release|Win32 = Release|Win32
-		RelWithDebInfo|Win32 = RelWithDebInfo|Win32
+		Debug|{{ platform_target }} = Debug|{{ platform_target }}
+		MinSizeRel|{{ platform_target }} = MinSizeRel|{{ platform_target }}
+		Release|{{ platform_target }} = Release|{{ platform_target }}
+		RelWithDebInfo|{{ platform_target }} = RelWithDebInfo|{{ platform_target }}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 {# #}
