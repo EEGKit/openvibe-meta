@@ -90,7 +90,7 @@ node("${NodeName}") {
 		if(isUnix()) {
 			manager.addShortText("Not updating dependencies on Linux", "black", "white", "0px", "white")
 		} else {
-			bat "install_dependencies.cmd --dependencies-dir ${dependencies_base}"
+			bat "install_dependencies.cmd --dependencies-dir ${dependencies_base} --platform-target ${params.PlatformTarget}"
 		}
 	}
 	
