@@ -17,19 +17,19 @@ node("${NodeName}") {
 	def BuildOption = BuildOptions[BuildType]
 	
 	if ("${params.reposOrigin}" == "Mensia") {
-		url_sdk = "git@github.com:mensiatech/certivibe.git"
-		url_designer = "git@bitbucket.org:mensiatech/studio.git"
-		url_test = "git@github.com:mensiatech/certivibe-test.git"
+		url_sdk = "git@bitbucket.org:mensiatech/openvibe-sdk.git"
+		url_designer = "git@bitbucket.org:mensiatech/openvibe-designer.git"
+		url_test = "git@bitbucket.org:mensiatech/openvibe-sdk-test.git"
 		cred_sdk = "ci_mensia_1"
 		cred_designer = "ci_mensia_1"
 		cred_test = "ci_mensia_2"
 	} else {
 		url_sdk = "https://gitlab.inria.fr/openvibe/sdk.git"
 		url_designer = "https://gitlab.inria.fr/openvibe/designer.git"
-		url_test = "git@github.com:mensiatech/certivibe-test.git"
+		url_test = "git@bitbucket.org:mensiatech/openvibe-sdk-test.git"
 		cred_sdk = ""
 		cred_designer = ""
-		cred_test = ""
+		cred_test = "ci_mensia_2"
 	}
 	
 	if(isUnix()) {
