@@ -1,10 +1,10 @@
 #!/bin/bash
 #
-# Launch in the meta repo root after you've built the win installer manually by nsis
+# Launch in the meta repo root on Cygwin after you've built the win installer manually by nsis
 #
 
 # todo could use the git tag?
-OV_VERSION=2.1.0
+OV_VERSION=2.2.0
 
 rm package/*
 mkdir package
@@ -13,10 +13,11 @@ tar --owner 0 --group 0 --transform s,^\.,openvibe-$OV_VERSION-src, --exclude ".
 
 pushd package
 
-cp ../extras/scripts/openvibe-$OV_VERSION-setup.exe .
+cp ../extras/scripts/openvibe-$OV_VERSION-*-setup.exe .
 
 md5sum openvibe-$OV_VERSION-src.tar.xz >openvibe-$OV_VERSION-src.md5
-md5sum openvibe-$OV_VERSION-setup.exe >openvibe-$OV_VERSION-setup.md5
+md5sum openvibe-$OV_VERSION-32bit-setup.exe >openvibe-$OV_VERSION-32bit-setup.md5
+md5sum openvibe-$OV_VERSION-64bit-setup.exe >openvibe-$OV_VERSION-64bit-setup.md5
 
 popd
 
