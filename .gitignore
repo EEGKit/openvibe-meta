@@ -6,3 +6,7 @@ OpenViBE-Meta.sln
 OpenViBE-Meta.sdf
 OpenViBE-Meta.v12.suo
 designer-extras.vcxproj.user
+
+# Temp & Software Folder
+.vs/
+.vscode/

@@ -8,9 +8,7 @@ import argparse
 
 def render(tpl_path, context):
 	path, filename = splitpath(tpl_path)
-	return jinja2.Environment(
-		loader=jinja2.FileSystemLoader(path or './')
-	).get_template(filename).render(context).replace(u'\ufeff', '')
+	return jinja2.Environment(loader=jinja2.FileSystemLoader(path or './')).get_template(filename).render(context).replace(u'\ufeff', '')
 
 def renderToFile(outfile, tpl_path, context) :
 	res = render(tpl_path, context)

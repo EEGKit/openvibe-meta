@@ -8,7 +8,7 @@ set URL=http://openvibe.inria.fr/dependencies/win32/3.0.0/
 
 set base_dir=%~dp0
 set dependencies_prefix=%base_dir%\dependencies
-set platform_target=x86
+set platform_target=x64
 
 :parameter_parse
 if /i "%1"=="-h"  (
