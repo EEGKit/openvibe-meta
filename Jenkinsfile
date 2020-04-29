@@ -1,11 +1,10 @@
 node("${NodeName}") {
-	def PlatformTarget = params.containsKey("PlatformTarget") ? params.PlatformTarget : "x86"
+	def PlatformTarget = params.containsKey("PlatformTarget") ? params.PlatformTarget : "x64"
 	def MetaBranch = params.containsKey("MetaBranch") ? params.MetaBranch : "master"
 	
 	// Add some informations about the build
 	manager.addShortText("${params.BuildType}", "red", "white", "0px", "white")
 	manager.addShortText("${NodeName}", "blue", "white", "0px", "white")
-	manager.addShortText("${params.reposOrigin}", "green", "white", "0px", "white")
 	manager.addShortText("${PlatformTarget}", "green", "white", "0px", "white")
 
 	OpenViBEVersion = "x.x.x"
@@ -16,21 +15,9 @@ node("${NodeName}") {
 		]
 	def BuildOption = BuildOptions[BuildType]
 	
-	if ("${params.reposOrigin}" == "Mensia") {
-		url_sdk = "git@bitbucket.org:mensiatech/openvibe-sdk.git"
-		url_designer = "git@bitbucket.org:mensiatech/openvibe-designer.git"
-		url_test = "git@bitbucket.org:mensiatech/openvibe-sdk-test.git"
-		cred_sdk = "ci_mensia_1"
-		cred_designer = "ci_mensia_1"
-		cred_test = "ci_mensia_2"
-	} else {
-		url_sdk = "https://gitlab.inria.fr/openvibe/sdk.git"
-		url_designer = "https://gitlab.inria.fr/openvibe/designer.git"
-		url_test = "git@bitbucket.org:mensiatech/openvibe-sdk-test.git"
-		cred_sdk = ""
-		cred_designer = ""
-		cred_test = "ci_mensia_2"
-	}
+
+	url_sdk = "https://gitlab.inria.fr/openvibe/sdk.git"
+	url_designer = "https://gitlab.inria.fr/openvibe/designer.git"
 	
 	if(isUnix()) {
 		build_dir = "${WORKSPACE}/build"
@@ -64,13 +51,13 @@ node("${NodeName}") {
 	// In order to update the dependencies, we need to pull all repositories first
 	stage('Checkout') {
 		dir("sdk") { 
-			git url: "${url_sdk}", branch: "${params.SDKBranch}", credentialsId: "${cred_sdk}"
+			git url: "${url_sdk}", branch: "${params.SDKBranch}"
 			shortCommitSDK = get_short_commit()
 			manager.addShortText("SDK : ${params.SDKBranch} (${shortCommitSDK})", "black", "white", "0px", "white")
 		}
 		
 		dir("designer") {
-			git url: "${url_designer}", branch: "${params.DesignerBranch}", credentialsId: "${cred_designer}"
+			git url: "${url_designer}", branch: "${params.DesignerBranch}"
 			shortCommitDesigner = get_short_commit()
 			manager.addShortText("Designer : ${params.DesignerBranch} (${shortCommitDesigner})", "black", "white", "0px", "white")	
 		}
@@ -78,7 +65,12 @@ node("${NodeName}") {
 		dir("extras") {
 			git url: 'https://gitlab.inria.fr/openvibe/extras.git', branch: "${params.ExtrasBranch}"
 			shortCommitExtras = get_short_commit()
-			manager.addShortText("Extras : ${params.ExtrasBranch} (${shortCommitExtras})", "black", "white", "0px", "white")	
+			manager.addShortText("Extras : ${params.ExtrasBranch} (${shortCommitExtras})", "black", "white", "0px", "white")
+			if(isUnix()) {
+				sh "git submodule update --init --recursive"
+			} else {
+				bat "git submodule update --init --recursive"
+			}
 		}
 	}
 	
@@ -186,17 +178,6 @@ node("${NodeName}") {
 			}
 		}
 	}
-
-	/*stage('Test one click scripts') {
-		dir("build") {
-			deleteDir()
-		}
-		if(isUnix()) {
-			sh "./build.sh"
-		} else {
-			error("TODO")
-		}
-	}*/
 }
 
 def get_short_commit() {
