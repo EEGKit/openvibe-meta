@@ -7,14 +7,15 @@
 		 
 |People|
 
-OV 2.2.0 staff in alphabetical order
+OV 3.0.0 staff in alphabetical order
 
 - Morgane Fauvet / Mensia
-- Anatole Lecuyer / Inria
 - Jozef Legeny / Mensia
+- Anatole Lecuyer / Inria
 - Jussi T. Lindgren / Inria
 - Thibaut Monseigne / Inria
-- Benoit Perrin / Mensia
+- Theodore Papadopoulo / Inria
+- Thomas Prampart / Inria
 
 Developers of previous versions,
 
@@ -24,19 +25,20 @@ Developers of previous versions,
  - Jerome Chabrol / Inria 
  - Vincent Delannoy / Inria 
  - Agnes Dos Santos / Mensia 
- - Nathanaël Foy / Inria 
+ - Nathanael Foy / Inria 
  - Charles Garraud / Inria 
  - Thierry Gaugry / Inria 
- - Jozef Legény / Inria, Mensia
+ - Jozef Legeny / Inria, Mensia
  - Jussi T. Lindgren / Inria 
  - Fabien Lotte / Inria
  - Loic Mahe / Inria
- - Baptiste Payan / Inria 
+ - Baptiste Payan / Inria
+ - Benoit Perrin / Mensia
  - Alexis Placet / Mensia
  - Yann Renard / Inria, Mensia
  - Bruno Renier / Inria
  - Cedric Riou / Inria 
- - Guillaume Serrière / Inria
+ - Guillaume Serriï¿½re / Inria
  
 Scientific Steering Committee :
  - Laurent Bougrain / Inria
