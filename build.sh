@@ -50,6 +50,13 @@ while [[ $# -gt 0 ]]; do
 	shift
 done
 
+if [[ ! -z ${dependencies_dir} ]]
+then
+  source ${base_dir}/sdk/scripts/unix-init-env.sh --dependencies-dir ${dependencies_dir}
+else
+  echo "dependencies_dir not set: not initialisaing environment"
+fi
+
 echo Building sdk
 cd ${base_dir}/sdk/scripts
 ./unix-build --build-type ${BuildType} --build-dir ${build_dir_base}/sdk-${BuildType} --install-dir ${install_dir_base}/sdk-${BuildType} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir} --build-unit --build-validation --test-data-dir ${dependencies_dir}/test-input
