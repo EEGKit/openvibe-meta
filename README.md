@@ -1,6 +1,6 @@
 # |OpenViBE meta repository| |README|  
 [![Website](https://img.shields.io/badge/Web-Website-informational)](http://openvibe.inria.fr/)
-[![Doxygen Documentation](https://img.shields.io/badge/Doc-Doxygen%20Documentation-informational)](http://openvibe.inria.fr/documentation/3.0.0-beta/)
+[![Doxygen Documentation](https://img.shields.io/badge/Doc-Doxygen%20Documentation-informational)](http://openvibe.inria.fr/documentation/latest/)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 |Build Status :|   |

@@ -8,7 +8,7 @@ set base_dir=%~dp0
 set build_dir_base=%base_dir%\build
 set install_dir_base=%base_dir%\dist
 set dependencies_dir=%base_dir%\dependencies
-set UserDataSubdir=openvibe-3.0.0-beta
+set UserDataSubdir=openvibe-3.0.0
 set PlatformTarget=x64
 
 :parameter_parse
