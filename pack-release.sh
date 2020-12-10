@@ -4,7 +4,7 @@
 #
 
 # todo could use the git tag?
-OV_VERSION="3.0.0-beta"
+OV_VERSION="3.0.0"
 
 rm package/*
 mkdir package
