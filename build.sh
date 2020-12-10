@@ -6,7 +6,7 @@ work_dir=`pwd`
 build_dir_base="${work_dir}/build"
 install_dir_base="${work_dir}/dist"
 dependencies_dir="${work_dir}/dependencies"
-user_data_subdir="openvibe-3.0.0-beta"
+user_data_subdir="openvibe-3.0.0"
 
 while [[ $# -gt 0 ]]; do
 	key="$1"
@@ -49,6 +49,13 @@ while [[ $# -gt 0 ]]; do
 	esac
 	shift
 done
+
+if [[ ! -z ${dependencies_dir} ]]
+then
+  source ${base_dir}/sdk/scripts/unix-init-env.sh --dependencies-dir ${dependencies_dir}
+else
+  echo "dependencies_dir not set: not initialisaing environment"
+fi
 
 echo Building sdk
 cd ${base_dir}/sdk/scripts
