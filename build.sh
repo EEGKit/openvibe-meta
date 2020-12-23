@@ -58,8 +58,11 @@ else
 fi
 
 echo Building sdk
-cd ${base_dir}/sdk/scripts
-./unix-build --build-type ${BuildType} --build-dir ${build_dir_base}/sdk-${BuildType} --install-dir ${install_dir_base}/sdk-${BuildType} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir} --build-unit --build-validation --test-data-dir ${dependencies_dir}/test-input
+mkdir -p ${base_dir}/build/sdk-${BuildType} &> /dev/null
+cd ${base_dir}/build/sdk-${BuildType}
+#./unix-build --build-type ${BuildType} --build-dir ${build_dir_base}/sdk-${BuildType} --install-dir ${install_dir_base}/sdk-${BuildType} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir} --build-unit --build-validation --test-data-dir ${dependencies_dir}/test-input
+cmake ../../sdk -G Ninja -DCMAKE_INSTALL_PREFIX=${install_dir_base} -DOV_CUSTOM_DEPENDENCIES_PATH=${dependencies_dir} -DOV_CONFIG_SUBDIR=${user_data_subdir} -DOVT_TEST_DATA_DIR=${dependencies_dir}/test-input -DGTEST_INCLUDE_DIR="/usr/src/gtest/src"
+ninja install
 if [[ ! $? -eq 0 ]]; then
 	echo "Error while building sdk"
 	exit 1
