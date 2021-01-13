@@ -61,7 +61,7 @@ echo Building sdk
 mkdir -p ${base_dir}/build/sdk-${BuildType} &> /dev/null
 cd ${base_dir}/build/sdk-${BuildType}
 #./unix-build --build-type ${BuildType} --build-dir ${build_dir_base}/sdk-${BuildType} --install-dir ${install_dir_base}/sdk-${BuildType} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir} --build-unit --build-validation --test-data-dir ${dependencies_dir}/test-input
-cmake ../../sdk -G Ninja -DCMAKE_INSTALL_PREFIX=${install_dir_base} -DOV_CUSTOM_DEPENDENCIES_PATH=${dependencies_dir} -DOV_CONFIG_SUBDIR=${user_data_subdir} -DOVT_TEST_DATA_DIR=${dependencies_dir}/test-input -DGTEST_INCLUDE_DIR="/usr/src/gtest/src"
+cmake ../../sdk -G Ninja -DCMAKE_BUILD_TYPE=${BuildType} -DCMAKE_INSTALL_PREFIX=${install_dir_base} -DOV_CUSTOM_DEPENDENCIES_PATH=${dependencies_dir} -DOV_CONFIG_SUBDIR=${user_data_subdir} -DOVT_TEST_DATA_DIR=${dependencies_dir}/test-input -DGTEST_INCLUDE_DIR="/usr/src/gtest/src"
 ninja install
 if [[ ! $? -eq 0 ]]; then
 	echo "Error while building sdk"
@@ -69,8 +69,11 @@ if [[ ! $? -eq 0 ]]; then
 fi
 
 echo Building designer
-cd ${base_dir}/designer/scripts
-./unix-build --build-type=${BuildType} --build-dir=${build_dir_base}/designer-${BuildType} --install-dir=${install_dir_base}/designer-${BuildType} --sdk=${install_dir_base}/sdk-${BuildType} --userdata-subdir=${user_data_subdir}
+mkdir -p ${base_dir}/build/designer-${BuildType} &> /dev/null
+cd ${base_dir}/build/designer-${BuildType}
+#./unix-build --build-type=${BuildType} --build-dir=${build_dir_base}/designer-${BuildType} --install-dir=${install_dir_base}/designer-${BuildType} --sdk=${install_dir_base}/sdk-${BuildType} --userdata-subdir=${user_data_subdir}
+cmake ../../designer -G Ninja -DCMAKE_BUILD_TYPE=${BuildType} -DCMAKE_INSTALL_PREFIX=${install_dir_base} -DOPENVIBE_SDK_PATH=${install_dir_base}/sdk-${BuildType} -DOV_CONFIG_SUBDIR=${user_data_subdir}
+ninja install
 if [[ ! $? -eq 0 ]]; then
 	echo "Error while building designer"
 	exit 1
