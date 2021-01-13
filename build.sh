@@ -80,9 +80,27 @@ if [[ ! $? -eq 0 ]]; then
 fi
 
 echo Building extras
-cd ${base_dir}/extras/scripts
-./linux-build ${BuildOption} --build-dir ${build_dir_base}/extras-${BuildType} --install-dir ${install_dir_base}/extras-${BuildType} --sdk ${install_dir_base}/sdk-${BuildType} --designer ${install_dir_base}/designer-${BuildType} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir}
+mkdir -p ${base_dir}/build/extras-${BuildType} &> /dev/null
+cd ${base_dir}/build/extras-${BuildType}
+#./linux-build ${BuildOption} --build-dir ${build_dir_base}/extras-${BuildType} --install-dir ${install_dir_base}/extras-${BuildType} --sdk ${install_dir_base}/sdk-${BuildType} --designer ${install_dir_base}/designer-${BuildType} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir}
+cmake ../../extras -G Ninja  -DCMAKE_BUILD_TYPE=${BuildType} -DCMAKE_INSTALL_PREFIX=${install_dir_base} -DOPENVIBE_SDK_PATH=${install_dir_base}/sdk-${BuildType} -DDESIGNER_SDK_PATH=${install_dir_base}/designer-${BuildType} -DLIST_DEPENDENCIES_PATH=${dependencies_dir} -DOV_CONFIG_SUBDIR=${user_data_subdir}
+NJOBS=`grep processor /proc/cpuinfo | wc -l`
+make -j $NJOBS
 if [[ ! $? -eq 0 ]]; then
 	echo "Error while building extras"
 	exit 1
 fi
+
+make install
+if [[ ! $? -eq 0 ]]; then
+	echo "Error while installing extras"
+	exit 1
+fi
+
+echo ""
+echo "Building process terminated successfully !"
+echo ""
+
+echo ""
+echo "Install completed !"
+echo ""
