@@ -88,24 +88,46 @@ if /i "%PlatformTarget%" neq "x86" (
 	SET dependencies_dir=%dependencies_dir%_%PlatformTarget%
 )
 
+if "%PlatformTarget%" == "x86" (
+    SET msplatform=Win32
+) else (
+    SET msplatform=x64
+)
+
+call .\sdk\scripts\windows-initialize-environment.cmd --dependencies-dir %dependencies_dir% --platform-target %PlatformTarget%
+
+rem SET generator="Visual Studio 12 2013 Win64" -T "v120"
+SET generator=Ninja
+
+
+echo generator for cmake is: %generator%
 if not defined multibuild_all (
 	REM the default build
 	
 	echo Building sdk
-	cd %base_dir%\sdk\scripts
-	call windows-build.cmd --no-pause %vsbuild% %BuildOption% --build-dir %build_dir_base%\sdk-%BuildType%-%PlatformTarget% --install-dir %install_dir_base%\sdk-%BuildType%-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --build-unit --build-validation --test-data-dir %dependencies_dir%\test-input --platform-target %PlatformTarget%  
-	call :check_errors !errorlevel! "!BuildType! SDK" || exit /b !_errlevel!
-
+	mkdir %base_dir%\build\sdk-%BuildType%-%PlatformTarget%
+	cd %base_dir%\build\sdk-%BuildType%-%PlatformTarget%
+	cmake ..\..\sdk -G %generator% -DCMAKE_BUILD_TYPE=%BuildType% -DCMAKE_INSTALL_PREFIX=%install_dir_base%/%PlatformTarget% -DOV_CUSTOM_DEPENDENCIES_PATH=%dependencies_dir% -DOV_CONFIG_SUBDIR=%UserDataSubdir% -DOVT_TEST_DATA_DIR=%dependencies_dir%/test-input
+	ninja install
+	
 	echo Building designer
-	cd %base_dir%\designer\scripts
-	call windows-build.cmd --no-pause %vsbuild% %BuildOption% --build-dir %build_dir_base%\designer-%BuildType%-%PlatformTarget% --install-dir %install_dir_base%\designer-%BuildType%-%PlatformTarget% --sdk %install_dir_base%\sdk-%BuildType%-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --platform-target %PlatformTarget%
-	call :check_errors !errorlevel! "!BuildType! Designer" || exit /b !_errlevel!
+	mkdir %base_dir%\build\designer-%BuildType%-%PlatformTarget%
+	cd %base_dir%\build\designer-%BuildType%-%PlatformTarget%
+	cmake.exe ..\..\designer -G %generator% -DCMAKE_BUILD_TYPE=%BuildType% -DCMAKE_INSTALL_PREFIX=%install_dir_base%/%PlatformTarget% -DOPENVIBE_SDK_PATH=%install_dir_base%/%PlatformTarget%/sdk-%BuildType% -DLIST_DEPENDENCIES_PATH=%dependencies_dir% -DOV_CONFIG_SUBDIR=%UserDataSubdir%
+	ninja install
+	
 
 	echo Building extras
-	cd %base_dir%\extras\scripts
-	call windows-build.cmd --no-pause %vsbuild% %BuildOption% --build-dir %build_dir_base%\extras-%BuildType%-%PlatformTarget% --install-dir %install_dir_base%\extras-%BuildType%-%PlatformTarget% --sdk %install_dir_base%\sdk-%BuildType%-%PlatformTarget% --designer %install_dir_base%\designer-%BuildType%-%PlatformTarget% --dependencies-dir %dependencies_dir% --userdata-subdir %UserDataSubdir% --platform-target %PlatformTarget%
-	call :check_errors !errorlevel! "!BuildType! Extras" || exit /b !_errlevel!
+	mkdir %base_dir%\build\extras-%BuildType%-%PlatformTarget%
+	cd %base_dir%\build\extras-%BuildType%-%PlatformTarget%
+	cmake.exe ..\..\extras -G %generator% -DCMAKE_BUILD_TYPE=%BuildType% -DCMAKE_INSTALL_PREFIX=%install_dir_base%/%PlatformTarget% -DOPENVIBE_SDK_PATH=%install_dir_base%/%PlatformTarget%/sdk-%BuildType% -DDESIGNER_SDK_PATH=%install_dir_base%/%PlatformTarget%/designer-%BuildType% -DLIST_DEPENDENCIES_PATH=%dependencies_dir% -DOV_CONFIG_SUBDIR=%UserDataSubdir%
+	ninja install
 	
+	
+	
+	echo ------
+	echo 
+	echo Install completed!
 ) else (
 	REM a build that creates a visual studio solution
 	
