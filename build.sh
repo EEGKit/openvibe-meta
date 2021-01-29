@@ -72,7 +72,7 @@ echo Building designer
 mkdir -p ${base_dir}/build/designer-${BuildType} &> /dev/null
 cd ${base_dir}/build/designer-${BuildType}
 #./unix-build --build-type=${BuildType} --build-dir=${build_dir_base}/designer-${BuildType} --install-dir=${install_dir_base}/designer-${BuildType} --sdk=${install_dir_base}/sdk-${BuildType} --userdata-subdir=${user_data_subdir}
-cmake ../../designer -G Ninja -DCMAKE_BUILD_TYPE=${BuildType} -DCMAKE_INSTALL_PREFIX=${install_dir_base} -DOPENVIBE_SDK_PATH=${install_dir_base}/sdk-${BuildType} -DOV_CONFIG_SUBDIR=${user_data_subdir}
+cmake ../../designer -G Ninja -DCMAKE_BUILD_TYPE=${BuildType} -DCMAKE_INSTALL_PREFIX=${install_dir_base} -DOPENVIBE_SDK_PATH=${install_dir_base}/sdk-${BuildType} -DLIST_DEPENDENCIES_PATH=${dependencies_dir} -DOV_CONFIG_SUBDIR=${user_data_subdir}
 ninja install
 if [[ ! $? -eq 0 ]]; then
 	echo "Error while building designer"
