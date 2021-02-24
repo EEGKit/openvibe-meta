@@ -9,6 +9,7 @@ cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0057 NEW)
 
 
+
 set(OPENVIBE_MAJOR_VERSION 3)
 set(OPENVIBE_MINOR_VERSION 0)
 set(OPENVIBE_PATCH_VERSION 0)
@@ -55,3 +56,5 @@ add_subdirectory(sdk)
 #OPENVIBE_SDK_PATH
 set(LIST_DEPENDENCIES_PATH "${CMAKE_SOURCE_DIR}/dependencies${DEPENDENCIES_ARCH}" )
 add_subdirectory(designer)
+
+add_subdirectory(extras)
