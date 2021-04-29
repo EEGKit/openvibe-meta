@@ -7,12 +7,9 @@
 		 
 |People|
 
-OV 3.0.0 staff in alphabetical order
+OV 3.1.0 staff in alphabetical order
 
-- Morgane Fauvet / Mensia
-- Jozef Legeny / Mensia
-- Anatole Lecuyer / Inria
-- Jussi T. Lindgren / Inria
+- Arthur Desbois / Inria
 - Thibaut Monseigne / Inria
 - Theodore Papadopoulo / Inria
 - Thomas Prampart / Inria
@@ -25,9 +22,11 @@ Developers of previous versions,
  - Jerome Chabrol / Inria 
  - Vincent Delannoy / Inria 
  - Agnes Dos Santos / Mensia 
+ - Morgane Fauvet / Mensia
  - Nathanael Foy / Inria 
  - Charles Garraud / Inria 
  - Thierry Gaugry / Inria 
+ - Anatole Lecuyer / Inria
  - Jozef Legeny / Inria, Mensia
  - Jussi T. Lindgren / Inria 
  - Fabien Lotte / Inria
