@@ -5,26 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.1.0]
 
 ### Added
 
-- Box : Artifact Subspace Reconstruction (ASR) Box (Issue extra#45)
+- Box : Artifact Subspace Reconstruction (ASR) Box (Issue extras#45)
+- Box : Matrix 3D to 2D Box (Issue extras#64)
+- Box : Bidirectionnal Unity games box (Issue#61)
 - Doc : Changelog (Issue meta#15)
 
 ### Changed
 
 - Dependency : Update eigen dependency to 3.3.7 (Issue meta#13, sdk#48, extras#49)
-- Box : Changed label Artefact-detection to Artifact (which may contain detection or reconstruction or anything related to artifacts) (Issue extra#45)
-- Dev : Update Geometry Module For ASR Algorithm (Issue extra#45)
+- Box : Changed label Artefact-detection to Artifact (which may contain detection or reconstruction or anything related to artifacts) (Issue extras#45)
+- Box : New implementation of Connectivity Measure Box (Issue extras#64)
+- Dev : Update Geometry Module For ASR Algorithm (Issue extras#45)
 - Dev : Improve Kernel CIdentifier Class (Issue sdk#50, designer#15, extras#53)
 - Dev : Improve Kernel CMatrix Class (Issue sdk#47, designer#13, extras#47)
+- Dev : LSL timestamps configurable (OpenViBE clock or LSL clock). Default is LSL clock (extras#63)
+- Dev : Replace using directives with namespace encapsulation (sdk#32, designer#4, extras#15)
+- Dev : libSVM updated to v3.2.4 (Issue extras#58)
 - Doc : Replace Mensia namespace (Issue designer#16 & extras#54)
 - Doc : Updated the online documentation and tutorials
 
 ### Deprecated
 
 ### Removed
+
+- Algo: Duplicated legacy code for stimulation based epoching (extras#107)
 
 ### Fixed
 
