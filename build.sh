@@ -6,7 +6,7 @@ work_dir=`pwd`
 build_dir_base="${work_dir}/build"
 install_dir_base="${work_dir}/dist"
 dependencies_dir="${work_dir}/dependencies"
-user_data_subdir="openvibe-3.0.0"
+user_data_subdir="openvibe-3.1.0"
 
 while [[ $# -gt 0 ]]; do
 	key="$1"
