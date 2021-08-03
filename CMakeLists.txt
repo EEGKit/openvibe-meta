@@ -9,9 +9,8 @@ cmake_policy(SET CMP0048 NEW)
 cmake_policy(SET CMP0057 NEW)
 
 
-
 set(OPENVIBE_MAJOR_VERSION 3)
-set(OPENVIBE_MINOR_VERSION 0)
+set(OPENVIBE_MINOR_VERSION 1)
 set(OPENVIBE_PATCH_VERSION 0)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -24,6 +23,9 @@ set(CMAKE_MODULE_PATH_BASE "${CMAKE_SOURCE_DIR}/CMake")
 set(BUILD_ARCH "x64")
 if(${BUILD_ARCH} STREQUAL "x64")
   set(DEPENDENCIES_ARCH "_x64")
+endif()
+if (UNIX)  #TODO: install deps in _x64 foler on unix and remove this condition
+  set(DEPENDENCIES_ARCH "")
 endif()
 
 # Set CMake variables

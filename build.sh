@@ -1,54 +1,8 @@
 #!/bin/bash
-BuildType=Release
-BuildOption=--release
+
 base_dir=$(dirname "$(readlink -f "$0")")
 work_dir=`pwd`
-build_dir_base="${work_dir}/build"
-install_dir_base="${work_dir}/dist"
 dependencies_dir="${work_dir}/dependencies"
-user_data_subdir="openvibe-3.1.0"
-
-while [[ $# -gt 0 ]]; do
-	key="$1"
-	case $key in
-		-h | --help)
-			echo "-d | --debug : build as debug"
-			echo "-r | --release : build as release"
-			echo "--build-dir <dirname> : directory for build files"
-			echo "--install-dir <dirname> : binaries deployment directory"
-			exit
-			;;
-		-d | --debug)
-			BuildType=Debug
-			BuildOption=--debug
-			;;
-		-r | --release)
-			BuildType=Release
-			BuildOption=--release
-			;;
-		--build-dir)
-			build_dir_base="$2"
-			shift
-			;;
-		--install-dir)
-			install_dir_base="$2"
-			shift
-			;;
-		--userdata-subdir)
-			user_data_subdir="$2"
-			shift
-			;;
-		--dependencies-dir)
-			dependencies_dir="$2"
-			shift
-			;;
-		*)
-			echo "ERROR: Unknown parameter $i"
-			exit 1
-			;;
-	esac
-	shift
-done
 
 if [[ ! -z ${dependencies_dir} ]]
 then
@@ -57,43 +11,15 @@ else
   echo "dependencies_dir not set: not initialisaing environment"
 fi
 
-echo Building sdk
-mkdir -p ${base_dir}/build/sdk-${BuildType} &> /dev/null
-cd ${base_dir}/build/sdk-${BuildType}
-#./unix-build --build-type ${BuildType} --build-dir ${build_dir_base}/sdk-${BuildType} --install-dir ${install_dir_base}/sdk-${BuildType} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir} --build-unit --build-validation --test-data-dir ${dependencies_dir}/test-input
-cmake ../../sdk -G Ninja -DCMAKE_BUILD_TYPE=${BuildType} -DCMAKE_INSTALL_PREFIX=${install_dir_base} -DOV_CUSTOM_DEPENDENCIES_PATH=${dependencies_dir} -DOV_CONFIG_SUBDIR=${user_data_subdir} -DOVT_TEST_DATA_DIR=${dependencies_dir}/test-input -DGTEST_INCLUDE_DIR="/usr/src/gtest/src"
+generator=Ninja
+
+mkdir ${work_dir}/build/
+cd ${work_dir}/build/
+cmake .. -G ${generator} -DCMAKE_BUILD_TYPE=Release
 ninja install
-if [[ ! $? -eq 0 ]]; then
-	echo "Error while building sdk"
-	exit 1
-fi
 
-echo Building designer
-mkdir -p ${base_dir}/build/designer-${BuildType} &> /dev/null
-cd ${base_dir}/build/designer-${BuildType}
-#./unix-build --build-type=${BuildType} --build-dir=${build_dir_base}/designer-${BuildType} --install-dir=${install_dir_base}/designer-${BuildType} --sdk=${install_dir_base}/sdk-${BuildType} --userdata-subdir=${user_data_subdir}
-cmake ../../designer -G Ninja -DCMAKE_BUILD_TYPE=${BuildType} -DCMAKE_INSTALL_PREFIX=${install_dir_base} -DOPENVIBE_SDK_PATH=${install_dir_base}/sdk-${BuildType} -DLIST_DEPENDENCIES_PATH=${dependencies_dir} -DOV_CONFIG_SUBDIR=${user_data_subdir}
-ninja install
 if [[ ! $? -eq 0 ]]; then
-	echo "Error while building designer"
-	exit 1
-fi
-
-echo Building extras
-mkdir -p ${base_dir}/build/extras-${BuildType} &> /dev/null
-cd ${base_dir}/build/extras-${BuildType}
-#./linux-build ${BuildOption} --build-dir ${build_dir_base}/extras-${BuildType} --install-dir ${install_dir_base}/extras-${BuildType} --sdk ${install_dir_base}/sdk-${BuildType} --designer ${install_dir_base}/designer-${BuildType} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir}
-cmake ../../extras -G Ninja  -DCMAKE_BUILD_TYPE=${BuildType} -DCMAKE_INSTALL_PREFIX=${install_dir_base} -DOPENVIBE_SDK_PATH=${install_dir_base}/sdk-${BuildType} -DDESIGNER_SDK_PATH=${install_dir_base}/designer-${BuildType} -DLIST_DEPENDENCIES_PATH=${dependencies_dir} -DOV_CONFIG_SUBDIR=${user_data_subdir}
-NJOBS=`grep processor /proc/cpuinfo | wc -l`
-make -j $NJOBS
-if [[ ! $? -eq 0 ]]; then
-	echo "Error while building extras"
-	exit 1
-fi
-
-make install
-if [[ ! $? -eq 0 ]]; then
-	echo "Error while installing extras"
+	echo "Error while building OpenViBE"
 	exit 1
 fi
 
