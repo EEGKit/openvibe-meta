@@ -4,36 +4,36 @@ function(debug_message)
 	endif()
 endfunction()
 
-# SET(OV_COMPILE_TESTS "true")
-FUNCTION(SET_BUILD_PLATFORM)
-	IF("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
-		ADD_DEFINITIONS(-DTARGET_ARCHITECTURE_x64)
-	ELSEIF("${CMAKE_SIZEOF_VOID_P}" EQUAL "4")
-		ADD_DEFINITIONS(-DTARGET_ARCHITECTURE_i386)
-	ELSE()
-		ADD_DEFINITIONS(-DTARGET_ARCHITECTURE_Unknown)
-	ENDIF()
+# set(OV_COMPILE_TESTS "true")
+function(SET_BUILD_PLATFORM)
+	if("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
+		add_definitions(-DTARGET_ARCHITECTURE_x64)
+	elseif("${CMAKE_SIZEOF_VOID_P}" EQUAL "4")
+		add_definitions(-DTARGET_ARCHITECTURE_i386)
+	else()
+		add_definitions(-DTARGET_ARCHITECTURE_Unknown)
+	endif()
 
-	IF(WIN32)
-		ADD_DEFINITIONS(-D_CRT_SECURE_NO_DEPRECATE)
-		ADD_DEFINITIONS(-DTARGET_OS_Windows)
-		ADD_DEFINITIONS(-DTARGET_COMPILER_VisualStudio)
-	ELSEIF(APPLE)
-		ADD_DEFINITIONS(-fnon-call-exceptions)
-		ADD_DEFINITIONS(-DTARGET_OS_MacOS)
-		# ADD_DEFINITIONS(-DTARGET_ARCHITECTURE_x64)
-		ADD_DEFINITIONS(-DTARGET_COMPILER_LLVM)
-	ELSEIF(UNIX)
-		# ADD_DEFINITIONS(-fvisibility=hidden) # This flag should be present... man gcc
-		ADD_DEFINITIONS(-fnon-call-exceptions)
-		ADD_DEFINITIONS(-DTARGET_OS_Linux)
-		ADD_DEFINITIONS(-DTARGET_COMPILER_GCC)
-	ENDIF()
+	if(WIN32)
+		add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
+		add_definitions(-DTARGET_OS_Windows)
+		add_definitions(-DTARGET_COMPILER_VisualStudio)
+	elseif(APPLE)
+		add_definitions(-fnon-call-exceptions)
+		add_definitions(-DTARGET_OS_MacOS)
+		# add_definitions(-DTARGET_ARCHITECTURE_x64)
+		add_definitions(-DTARGET_COMPILER_LLVM)
+	elseif(UNIX)
+		# add_definitions(-fvisibility=hidden) # This flag should be present... man gcc
+		add_definitions(-fnon-call-exceptions)
+		add_definitions(-DTARGET_OS_Linux)
+		add_definitions(-DTARGET_COMPILER_GCC)
+	endif()
 
-ENDFUNCTION()
+endfunction()
 
 # Set version based on git tag.
-#  If current commit is tagged, use the tag as it is, and add build number based on content of .build file, written by Jenkins
+#  if current commit is tagged, use the tag as it is, and add build number based on content of .build file, written by Jenkins
 #  Else use last tag major and minor number and set patch number to 99
 #
 # This function should remain generic to be usable in every projects.
@@ -42,7 +42,7 @@ function(set_version)
 	if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/.version)
 
 		# These versions are used by the subprojects by default.
-		# If you wish to maintain specific version numbers for a subproject, please do so in the projects CMakeLists.txt
+		# if you wish to maintain specific version numbers for a subproject, please do so in the projects CMakeLists.txt
 		file(READ ${CMAKE_CURRENT_SOURCE_DIR}/.version PROJECT_VERSION)
 		string(STRIP ${PROJECT_VERSION} PROJECT_VERSION)
 		string(REPLACE "." ";" VERSION_LIST ${PROJECT_VERSION})
@@ -100,7 +100,7 @@ function(set_version)
 	endif()
 
 	# These versions are used by the subprojects by default.
-	# If you wish to maintain specific version numbers for a subproject, please do so in the projects CMakeLists.txt
+	# if you wish to maintain specific version numbers for a subproject, please do so in the projects CMakeLists.txt
 	if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/.build)
 		file(READ ${CMAKE_CURRENT_SOURCE_DIR}/.build PROJECT_VERSION_BUILD)
 		string(STRIP ${PROJECT_VERSION_BUILD} PROJECT_VERSION_BUILD)
