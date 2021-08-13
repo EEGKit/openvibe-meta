@@ -26,7 +26,7 @@ include("Utilities")
 include("OvPrint")
 include("OvInstallLaunchScript")
 
-set(BUILD_ARCH "x64")
+set(BUILD_ARCH "x64" CACHE STRING "Architecture tu build for (x64 or x86)")
 if(${BUILD_ARCH} STREQUAL "x64")
   set(DEPENDENCIES_ARCH "_x64")
 endif()
@@ -35,8 +35,14 @@ if (UNIX)  #TODO: install deps in _x64 foler on unix and remove this condition
 endif()
 
 # Set CMake variables
-set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build Type (Debug, Release, RelWithDebInfo, MinSizeRel")
-set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/dist/${CMAKE_BUILD_TYPE}" CACHE PATH "Install directory" FORCE)
+get_property (GENERATOR_IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if(${GENERATOR_IS_MULTI_CONFIG})
+	set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/dist/${BUILD_ARCH}" CACHE PATH "Install directory" FORCE)
+else()
+	set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build Type (Debug, Release, RelWithDebInfo, MinSizeRel")
+	set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/dist/${BUILD_ARCH}/${CMAKE_BUILD_TYPE}" CACHE PATH "Install directory" FORCE)
+endif()
+
 
 # Set OV variables
 set(OV_CUSTOM_DEPENDENCIES_PATH "${CMAKE_SOURCE_DIR}/dependencies${DEPENDENCIES_ARCH}" CACHE PATH "Dependencies folder" )
