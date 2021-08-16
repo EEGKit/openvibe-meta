@@ -82,19 +82,28 @@ node("${NodeName}") {
 		}
 	}
 	
-	stage('Build SDK') {
-		dir("sdk") { 
-			dir ("scripts") {
-				if(isUnix()) {
-					sh "./unix-build --build-type ${params.BuildType} --build-dir ${build_dir}/sdk-${params.BuildType} --install-dir ${dist_dir}/sdk-${params.BuildType} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir} --build-unit --build-validation --test-data-dir ${dependencies_dir}/test-input"
-				} else {
-					bat "windows-build.cmd --no-pause ${BuildOption} --build-dir ${build_dir}\\sdk-${params.BuildType} --install-dir ${dist_dir}\\sdk-${params.BuildType}-${PlatformTarget} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir} --platform-target ${PlatformTarget} --build-unit --build-validation --test-data-dir ${dependencies_dir}\\test-input"
-				}
+	stage('Build') {
+		if(isUnix()) {
+			dir("sdk/scripts") { 
+				sh "source unix-init-env.sh --dependencies-dir ${dependencies_dir}"
 			}
+
+		} else {
+			bat "set PATH=${dependencies_dir}/cmake/bin;%PATH%"
+			bat "set PATH=${dependencies_dir}/ninja;%PATH%"
+
+			dir("sdk/scripts") { 
+				bat "call .\windows-init-env.cmd --platform-target ${PlatformTarget%}"
+			}
+		}
+		
+		dir("build") {
+			sh "cmake .. -G Ninja -DCMAKE_BUILD_TYPE=${params.BuildType} -DBUILD_ARCH=${PlatformTarget} -DBUILD_UNIT_TEST=ON -DBUILD_VALIDATION_TEST=ON"
+			sh "ninja install"
 		}
 	}
 	stage('Tests SDK') {
-		dir ("build/sdk-${params.BuildType}") {
+		dir ("build/sdk") {
 			dir("unit-test/Testing") {
 				deleteDir()
 			}
@@ -116,30 +125,8 @@ node("${NodeName}") {
 		}
 	}
 
-	stage('Build Designer') {
-		dir("designer") {
-			dir ("scripts") {
-				if(isUnix()) {
-					sh "./unix-build --build-type=${params.BuildType} --build-dir=${build_dir}/designer-${params.BuildType} --install-dir=${dist_dir}/designer-${params.BuildType} --sdk=${dist_dir}/sdk-${params.BuildType}"
-				} else {
-					bat "windows-build.cmd --no-pause ${BuildOption} --build-dir ${build_dir}\\designer-${params.BuildType} --install-dir ${dist_dir}\\designer-${params.BuildType}-${PlatformTarget} --sdk ${dist_dir}\\sdk-${params.BuildType}-${PlatformTarget} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir} --platform-target ${PlatformTarget}"
-				}	
-			}
-		}
-	}
-	stage('Build Extras') {
-		dir("extras") {
-			dir ("scripts") {
-				if(isUnix()) {
-					sh "./linux-build ${BuildOption} --build-dir ${build_dir}/extras-${params.BuildType} --install-dir ${dist_dir}/extras-${params.BuildType} --sdk ${dist_dir}/sdk-${params.BuildType} --designer ${dist_dir}/designer-${params.BuildType} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir}"
-				} else {
-					bat "windows-build.cmd --no-pause ${BuildOption} --build-dir ${build_dir}\\extras-${params.BuildType} --install-dir ${dist_dir}\\extras-${params.BuildType}-${PlatformTarget} --sdk ${dist_dir}\\sdk-${params.BuildType}-${PlatformTarget} --designer ${dist_dir}\\designer-${params.BuildType}-${PlatformTarget} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir} --platform-target ${PlatformTarget}"
-				}
-			}
-		}
-	}
 	stage('Tests Extras') {
-		dir ("build/extras-${params.BuildType}") {
+		dir ("build/extras") {
 			dir("Testing") {
 				deleteDir()
 			}
