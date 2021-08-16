@@ -95,10 +95,7 @@ node("${NodeName}") {
 		} else {
 			bat "set PATH=${dependencies_dir}/cmake/bin;%PATH%"
 			bat "set PATH=${dependencies_dir}/ninja;%PATH%"
-
-			dir("sdk/scripts") { 
-				bat "windows-init-env.cmd --platform-target ${PlatformTarget}"
-			}
+			bat "windows-init-env.cmd --platform-target ${PlatformTarget}"
 
 			dir("build") {
 				bat "cmake .. -G Ninja -DCMAKE_BUILD_TYPE=${params.BuildType} -DBUILD_ARCH=${PlatformTarget} -DBUILD_UNIT_TEST=ON -DBUILD_VALIDATION_TEST=ON"
