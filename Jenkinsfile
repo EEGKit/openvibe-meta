@@ -97,7 +97,7 @@ node("${NodeName}") {
 			bat "set PATH=${dependencies_dir}/ninja;%PATH%"
 
 			dir("sdk/scripts") { 
-				bat "windows-init-env.cmd --platform-target ${PlatformTarget%}"
+				bat "windows-init-env.cmd --platform-target ${PlatformTarget}"
 			}
 
 			dir("build") {
