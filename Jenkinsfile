@@ -22,17 +22,17 @@ node("${NodeName}") {
 	if(isUnix()) {
 		build_dir = "${WORKSPACE}/build"
 		dist_dir = "${WORKSPACE}/dist"
-		dependencies_dir = "/builds/dependencies"
-		dependencies_base = "/builds/dependencies"
+		dependencies_dir = "${WORKSPACE}/dependencies"
+		dependencies_base = "${WORKSPACE}/dependencies"
 	} else {
 		build_dir = "${WORKSPACE}\\build"
 		dist_dir = "${WORKSPACE}\\dist"
 		if( "${PlatformTarget}" == "x64") {
-			dependencies_dir = "c:\\builds\\dependencies_x64"		
+			dependencies_dir = "${WORKSPACE}\\dependencies_x64"
 		} else {
-			dependencies_dir = "c:\\builds\\dependencies"
+			dependencies_dir = "${WORKSPACE}\\dependencies"
 		}
-		dependencies_base = "c:\\builds\\dependencies"
+		dependencies_base = "${WORKSPACE}\\dependencies"
 	}
 	
 	user_data_subdir = "openvibe-${OpenViBEVersion}"
@@ -96,7 +96,7 @@ node("${NodeName}") {
 			bat "build.cmd BuildOption --platform-target ${PlatformTarget}"
 		}
 	}
-	
+
 	stage('Tests SDK') {
 		dir ("build/sdk") {
 			dir("unit-test/Testing") {
