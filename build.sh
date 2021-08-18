@@ -1,21 +1,43 @@
 #!/bin/bash
 
-base_dir=$(dirname "$(readlink -f "$0")")
-work_dir=`pwd`
-dependencies_dir="${work_dir}/dependencies"
+baseDir=$(dirname "$(readlink -f "$0")")
+workDir=`pwd`
+dependenciesDir="${workDir}/dependencies"
+buildType=Release
 
-if [[ ! -z ${dependencies_dir} ]]
+while [[ $# -gt 0 ]]; do
+	key="$1"
+	case $key in
+		-h | --help)
+			usage
+			exit
+			;;
+		-r | --release)
+			buildType=Release
+			;;
+		-d | --debug)
+			buildType=Debug
+			;;
+		*)
+			echo "ERROR: Unknown parameter $key"
+			exit 1
+			;;
+	esac
+	shift # past argument or value
+done
+
+if [[ ! -z ${dependenciesDir} ]]
 then
-  source ${base_dir}/sdk/scripts/unix-init-env.sh --dependencies-dir ${dependencies_dir}
+  source ${baseDir}/sdk/scripts/unix-init-env.sh --dependencies-dir ${dependenciesDir}
 else
-  echo "dependencies_dir not set: not initialisaing environment"
+  echo "dependenciesDir not set: not initialisaing environment"
 fi
 
 generator=Ninja
 
-mkdir ${work_dir}/build/
-cd ${work_dir}/build/
-cmake .. -G ${generator} -DCMAKE_BUILD_TYPE=Release
+mkdir ${workDir}/build/
+cd ${workDir}/build/
+cmake .. -G ${generator} -DCMAKE_BUILD_TYPE=${buildType}
 ninja install
 
 if [[ ! $? -eq 0 ]]; then
