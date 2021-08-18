@@ -76,7 +76,10 @@ node("${NodeName}") {
 	
 	stage('Update dependencies') {
 		if(isUnix()) {
-			manager.addShortText("Not updating dependencies on Linux", "black", "white", "0px", "white")
+			sh """#!/bin/bash
+		        perl sdk/scripts/linux-install_dependencies.pl --manifest-dir sdk/scripts/ --dependencies-dir ${dependencies_dir} --assume-yes 
+		        perl sdk/scripts/linux-install_dependencies.pl --manifest-dir designer/scripts/ --dependencies-dir ${dependencies_dir} --assume-yes
+		        perl sdk/scripts/linux-install_dependencies.pl --manifest-dir extras/scripts/ --dependencies-dir ${dependencies_dir} --assume-yes """
 		} else {
 			bat "install_dependencies.cmd --dependencies-dir ${dependencies_base} --platform-target ${PlatformTarget}"
 		}
@@ -84,16 +87,9 @@ node("${NodeName}") {
 	
 	stage('Build') {
 		if(isUnix()) {
-			dir("sdk/scripts") { 
-				sh "source unix-init-env.sh --dependencies-dir ${dependencies_dir}"
-			}
-
-			dir("build") {
-				sh "cmake .. -G Ninja -DCMAKE_BUILD_TYPE=${params.BuildType} -DBUILD_ARCH=${PlatformTarget} -DBUILD_UNIT_TEST=ON -DBUILD_VALIDATION_TEST=ON"
-				sh "ninja install"
-			}
+		    sh "./build.sh ${BuildOption}"
 		} else {
-			bat "build.cmd BuildOption --platform-target ${PlatformTarget}"
+			bat "build.cmd ${BuildOption} --platform-target ${PlatformTarget}"
 		}
 	}
 
