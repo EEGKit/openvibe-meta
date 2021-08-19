@@ -12,7 +12,7 @@ node("${NodeName}") {
 	def BuildOptions = [
 		"Release" : "--release",
 		"Debug" : "--debug"
-		]
+	]
 	def BuildOption = BuildOptions[BuildType]
 	
 
@@ -41,6 +41,9 @@ node("${NodeName}") {
 	shortCommitMeta = get_short_commit()
 	manager.addShortText("Meta : ${MetaBranch} (${shortCommitMeta})", "black", "white", "0px", "white")
 
+    dir("${dependencies_dir}") {
+        deleteDir()
+    }
 	dir("build") {
 		deleteDir()
 	}
