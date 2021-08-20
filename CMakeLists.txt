@@ -100,6 +100,13 @@ add_definitions(-DOV_CMAKE_PATH_DATA="${DIST_ROOT}/share/openvibe")
 
 # Set OV variables
 set(OV_CUSTOM_DEPENDENCIES_PATH "${CMAKE_SOURCE_DIR}/dependencies${DEPENDENCIES_ARCH}" CACHE PATH "Dependencies folder" )
+# Create a path usable by Unix shell scripts (used by .sh launchers)
+set(OV_PATH_DEPENCENCY_LIBS "")
+foreach(TMP ${OV_CUSTOM_DEPENDENCIES_PATH})
+	list(APPEND OV_PATH_DEPENDENCY_LIBS "${TMP}/lib")
+endforeach()
+string(REPLACE ";" ":" OV_PATH_PATH_DEPENDENCY_LIBS "${OV_PATH_DEPENDENCY_LIBS}")
+
 set(OV_CONFIG_SUBDIR "${PROJECT_NAME}-${PROJECT_VERSION}" CACHE STRING "Subdirectory under user directory when configuration and logs will be saved")
 
 set(OVT_TEST_DATA_DIR "${OV_CUSTOM_DEPENDENCIES_PATH}/test-input")
@@ -123,7 +130,7 @@ set(ENV{PATH} "$ENV{PATH};${OV_CUSTOM_DEPENDENCIES_PATH}/gtk/bin")
 add_subdirectory(sdk)
 
 #OPENVIBE_SDK_PATH
-set(LIST_DEPENDENCIES_PATH "${CMAKE_SOURCE_DIR}/dependencies${DEPENDENCIES_ARCH}" )
+set(LIST_DEPENDENCIES_PATH ${OV_CUSTOM_DEPENDENCIES_PATH})
 add_subdirectory(designer)
 
 add_subdirectory(extras)
