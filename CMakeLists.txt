@@ -99,17 +99,17 @@ add_definitions(-DOV_CMAKE_PATH_LIB="${DIST_ROOT}/lib")
 add_definitions(-DOV_CMAKE_PATH_DATA="${DIST_ROOT}/share/openvibe")
 
 # Set OV variables
-set(OV_CUSTOM_DEPENDENCIES_PATH "${CMAKE_SOURCE_DIR}/dependencies${DEPENDENCIES_ARCH}" CACHE PATH "Dependencies folder" )
+set(LIST_DEPENDENCIES_PATH "${CMAKE_SOURCE_DIR}/dependencies${DEPENDENCIES_ARCH}" CACHE PATH "Dependencies folder" )
 # Create a path usable by Unix shell scripts (used by .sh launchers)
 set(OV_PATH_DEPENCENCY_LIBS "")
-foreach(TMP ${OV_CUSTOM_DEPENDENCIES_PATH})
+foreach(TMP ${LIST_DEPENDENCIES_PATH})
 	list(APPEND OV_PATH_DEPENDENCY_LIBS "${TMP}/lib")
 endforeach()
 string(REPLACE ";" ":" OV_PATH_PATH_DEPENDENCY_LIBS "${OV_PATH_DEPENDENCY_LIBS}")
 
 set(OV_CONFIG_SUBDIR "${PROJECT_NAME}-${PROJECT_VERSION}" CACHE STRING "Subdirectory under user directory when configuration and logs will be saved")
 
-set(OVT_TEST_DATA_DIR "${OV_CUSTOM_DEPENDENCIES_PATH}/test-input")
+set(OVT_TEST_DATA_DIR "${LIST_DEPENDENCIES_PATH}/test-input")
 
 
 # Options
@@ -121,16 +121,16 @@ option(BUILD_UNIT_TEST "Build the unit tests" ON)
 
 # Add some dependencies to PATH
 #Could (SHOULD) be replaced with find_path / find_package functionnalities
-set(ENV{PATH} "$ENV{PATH};${OV_CUSTOM_DEPENDENCIES_PATH}/expat/bin")
-set(ENV{PATH} "$ENV{PATH};${OV_CUSTOM_DEPENDENCIES_PATH}/vcredist")
-set(ENV{PATH} "$ENV{PATH};${OV_CUSTOM_DEPENDENCIES_PATH}/xerces-c/lib")
-set(ENV{PATH} "$ENV{PATH};${OV_CUSTOM_DEPENDENCIES_PATH}/gtk/bin")
+set(ENV{PATH} "$ENV{PATH};${LIST_DEPENDENCIES_PATH}/expat/bin")
+set(ENV{PATH} "$ENV{PATH};${LIST_DEPENDENCIES_PATH}/vcredist")
+set(ENV{PATH} "$ENV{PATH};${LIST_DEPENDENCIES_PATH}/xerces-c/lib")
+set(ENV{PATH} "$ENV{PATH};${LIST_DEPENDENCIES_PATH}/gtk/bin")
 
 # Add SDK to build
 add_subdirectory(sdk)
 
-#OPENVIBE_SDK_PATH
-set(LIST_DEPENDENCIES_PATH ${OV_CUSTOM_DEPENDENCIES_PATH})
+# Add Designer to build
 add_subdirectory(designer)
 
+# Add extras to build
 add_subdirectory(extras)
