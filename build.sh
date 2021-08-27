@@ -26,12 +26,7 @@ while [[ $# -gt 0 ]]; do
 	shift # past argument or value
 done
 
-if [[ ! -z ${dependenciesDir} ]]
-then
-  source ${baseDir}/sdk/scripts/unix-init-env.sh --dependencies-dir ${dependenciesDir}
-else
-  echo "dependenciesDir not set: not initialisaing environment"
-fi
+export PATH=${dependenciesDir}/cmake/bin:$PATH
 
 generator=Ninja
 
