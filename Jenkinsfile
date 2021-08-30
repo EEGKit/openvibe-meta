@@ -47,9 +47,6 @@ node("${NodeName}") {
 	dir("build") {
 		deleteDir()
 	}
-	dir("build-vs") {  // Only for windows
-		deleteDir()
-	}
     dir("dist") {
 		deleteDir()
 	}
@@ -96,7 +93,6 @@ node("${NodeName}") {
 		    sh "./build.sh ${BuildOption}"
 		} else {
 			bat "build.cmd ${BuildOption} --platform-target ${PlatformTarget}"
-			bat "build.cmd --vsbuild"
 		}
 	}
 

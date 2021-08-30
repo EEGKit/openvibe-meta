@@ -124,6 +124,15 @@ set(ENV{PATH} "$ENV{PATH};${LIST_DEPENDENCIES_PATH}/vcredist")
 set(ENV{PATH} "$ENV{PATH};${LIST_DEPENDENCIES_PATH}/xerces-c/lib")
 set(ENV{PATH} "$ENV{PATH};${LIST_DEPENDENCIES_PATH}/gtk/bin")
 
+# Sort target into directories for better visualization in IDE
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set(APP_FOLDER Applications)
+set(KERNEL_FOLDER Kernel)
+set(MODULES_FOLDER Modules)
+set(PLUGINS_FOLDER Plugins)
+set(TESTS_FOLDER Unit-Tests)
+set(VALIDATION_FOLDER Validation-Tests)
+
 # Add SDK to build
 add_subdirectory(sdk)
 
