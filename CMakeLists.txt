@@ -130,6 +130,7 @@ set(APP_FOLDER Applications)
 set(KERNEL_FOLDER Kernel)
 set(MODULES_FOLDER Modules)
 set(PLUGINS_FOLDER Plugins)
+set(MISC_FOLDER Misc)
 set(TESTS_FOLDER Unit-Tests)
 set(VALIDATION_FOLDER Validation-Tests)
 
