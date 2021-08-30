@@ -45,7 +45,7 @@ rem ### Build Tools
 set PATH=%dependenciesDir%/cmake/bin;%PATH%
 set PATH=%dependenciesDir%/ninja;%PATH%
 
-call .\windows-init-env.cmd --platform-target %platformTarget%
+call %baseDir%\windows-init-env.cmd --platform-target %platformTarget%
 
 echo generator for cmake is: %generator%
 

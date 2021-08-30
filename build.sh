@@ -1,8 +1,7 @@
 #!/bin/bash
 
 baseDir=$(dirname "$(readlink -f "$0")")
-workDir=`pwd`
-dependenciesDir="${workDir}/dependencies"
+dependenciesDir="${baseDir}/dependencies"
 buildType=Release
 
 while [[ $# -gt 0 ]]; do
@@ -30,8 +29,8 @@ export PATH=${dependenciesDir}/cmake/bin:$PATH
 
 generator=Ninja
 
-mkdir ${workDir}/build/
-cd ${workDir}/build/
+mkdir ${baseDir}/build/
+cd ${baseDir}/build/
 cmake .. -G ${generator} -DCMAKE_BUILD_TYPE=${buildType}
 ninja install
 
