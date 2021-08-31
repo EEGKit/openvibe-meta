@@ -12,7 +12,7 @@ node("${NodeName}") {
 	def BuildOptions = [
 		"Release" : "--release",
 		"Debug" : "--debug"
-		]
+	]
 	def BuildOption = BuildOptions[BuildType]
 	
 
@@ -22,17 +22,17 @@ node("${NodeName}") {
 	if(isUnix()) {
 		build_dir = "${WORKSPACE}/build"
 		dist_dir = "${WORKSPACE}/dist"
-		dependencies_dir = "/builds/dependencies"
-		dependencies_base = "/builds/dependencies"
+		dependencies_dir = "${WORKSPACE}/dependencies"
+		dependencies_base = "${WORKSPACE}/dependencies"
 	} else {
 		build_dir = "${WORKSPACE}\\build"
 		dist_dir = "${WORKSPACE}\\dist"
 		if( "${PlatformTarget}" == "x64") {
-			dependencies_dir = "c:\\builds\\dependencies_x64"		
+			dependencies_dir = "${WORKSPACE}\\dependencies_x64"
 		} else {
-			dependencies_dir = "c:\\builds\\dependencies"
+			dependencies_dir = "${WORKSPACE}\\dependencies"
 		}
-		dependencies_base = "c:\\builds\\dependencies"
+		dependencies_base = "${WORKSPACE}\\dependencies"
 	}
 	
 	user_data_subdir = "openvibe-${OpenViBEVersion}"
@@ -41,6 +41,9 @@ node("${NodeName}") {
 	shortCommitMeta = get_short_commit()
 	manager.addShortText("Meta : ${MetaBranch} (${shortCommitMeta})", "black", "white", "0px", "white")
 
+    dir("${dependencies_dir}") {
+        deleteDir()
+    }
 	dir("build") {
 		deleteDir()
 	}
@@ -76,25 +79,25 @@ node("${NodeName}") {
 	
 	stage('Update dependencies') {
 		if(isUnix()) {
-			manager.addShortText("Not updating dependencies on Linux", "black", "white", "0px", "white")
+			sh """#!/bin/bash
+		        perl sdk/scripts/linux-install_dependencies.pl --manifest-dir sdk/scripts/ --dependencies-dir ${dependencies_dir} --assume-yes 
+		        perl sdk/scripts/linux-install_dependencies.pl --manifest-dir designer/scripts/ --dependencies-dir ${dependencies_dir} --assume-yes
+		        perl sdk/scripts/linux-install_dependencies.pl --manifest-dir extras/scripts/ --dependencies-dir ${dependencies_dir} --assume-yes """
 		} else {
 			bat "install_dependencies.cmd --dependencies-dir ${dependencies_base} --platform-target ${PlatformTarget}"
 		}
 	}
 	
-	stage('Build SDK') {
-		dir("sdk") { 
-			dir ("scripts") {
-				if(isUnix()) {
-					sh "./unix-build --build-type ${params.BuildType} --build-dir ${build_dir}/sdk-${params.BuildType} --install-dir ${dist_dir}/sdk-${params.BuildType} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir} --build-unit --build-validation --test-data-dir ${dependencies_dir}/test-input"
-				} else {
-					bat "windows-build.cmd --no-pause ${BuildOption} --build-dir ${build_dir}\\sdk-${params.BuildType} --install-dir ${dist_dir}\\sdk-${params.BuildType}-${PlatformTarget} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir} --platform-target ${PlatformTarget} --build-unit --build-validation --test-data-dir ${dependencies_dir}\\test-input"
-				}
-			}
+	stage('Build') {
+		if(isUnix()) {
+		    sh "./build.sh ${BuildOption}"
+		} else {
+			bat "build.cmd ${BuildOption} --platform-target ${PlatformTarget}"
 		}
 	}
+
 	stage('Tests SDK') {
-		dir ("build/sdk-${params.BuildType}") {
+		dir ("build/sdk") {
 			dir("unit-test/Testing") {
 				deleteDir()
 			}
@@ -116,30 +119,8 @@ node("${NodeName}") {
 		}
 	}
 
-	stage('Build Designer') {
-		dir("designer") {
-			dir ("scripts") {
-				if(isUnix()) {
-					sh "./unix-build --build-type=${params.BuildType} --build-dir=${build_dir}/designer-${params.BuildType} --install-dir=${dist_dir}/designer-${params.BuildType} --sdk=${dist_dir}/sdk-${params.BuildType}"
-				} else {
-					bat "windows-build.cmd --no-pause ${BuildOption} --build-dir ${build_dir}\\designer-${params.BuildType} --install-dir ${dist_dir}\\designer-${params.BuildType}-${PlatformTarget} --sdk ${dist_dir}\\sdk-${params.BuildType}-${PlatformTarget} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir} --platform-target ${PlatformTarget}"
-				}	
-			}
-		}
-	}
-	stage('Build Extras') {
-		dir("extras") {
-			dir ("scripts") {
-				if(isUnix()) {
-					sh "./linux-build ${BuildOption} --build-dir ${build_dir}/extras-${params.BuildType} --install-dir ${dist_dir}/extras-${params.BuildType} --sdk ${dist_dir}/sdk-${params.BuildType} --designer ${dist_dir}/designer-${params.BuildType} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir}"
-				} else {
-					bat "windows-build.cmd --no-pause ${BuildOption} --build-dir ${build_dir}\\extras-${params.BuildType} --install-dir ${dist_dir}\\extras-${params.BuildType}-${PlatformTarget} --sdk ${dist_dir}\\sdk-${params.BuildType}-${PlatformTarget} --designer ${dist_dir}\\designer-${params.BuildType}-${PlatformTarget} --dependencies-dir ${dependencies_dir} --userdata-subdir ${user_data_subdir} --platform-target ${PlatformTarget}"
-				}
-			}
-		}
-	}
 	stage('Tests Extras') {
-		dir ("build/extras-${params.BuildType}") {
+		dir ("build/extras") {
 			dir("Testing") {
 				deleteDir()
 			}
