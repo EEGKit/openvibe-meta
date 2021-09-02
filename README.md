@@ -1,4 +1,5 @@
-# |OpenViBE meta repository| |README|  
+# |OpenViBE meta repository| |README|
+
 [![Website](https://img.shields.io/badge/Web-Website-informational)](http://openvibe.inria.fr/)
 [![Doxygen Documentation](https://img.shields.io/badge/Doc-Doxygen%20Documentation-informational)](http://openvibe.inria.fr/documentation/latest/)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
@@ -55,9 +56,8 @@ Run the following command:
 
 `$ ./install_dependencies.sh`
 
-Dependencies will be installed in a *dependencies* folder at the root of the project.<br>
+Dependencies will be installed in a *dependencies* folder at the root of the project.  
 Some will be installed on the system.
-
 
 ## Building the project
 
@@ -77,7 +77,7 @@ To generate the visual studio solution of the project, run the following command
 
 `> .\build.cmd --vsbuild`
 
-The solution will be in the folder *build-vs*<br>
+The solution will be in the folder *build-vs*  
 The solution allows you to view/edit code in Visual Studio, but not to compile the project for the moment.
 
 ### Linux
@@ -88,8 +88,8 @@ Execute the following command:
 
 Applications are installed in the *dist* folder at the root, and are launchable using their launch script: __*openvibe-[application-name].sh*__
 
-
 ## Updating the repository
+
 You can update the whole directory (including submodules) with :
 
 ```bash
@@ -100,4 +100,3 @@ git submodule update --init --recursive
 
 Aliases can be created to ease the global update process :
 `git config --global alias.spull '!git pull && git submodule sync --recursive && git submodule update --init --recursive'`
-
