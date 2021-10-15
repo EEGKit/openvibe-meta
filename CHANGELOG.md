@@ -9,22 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Metabox to perform log of signal power (Issue extras#95)
+- Box : Metabox to perform log of signal power (Issue extras#95)
+- Data : Artifacted files for algorithm tests (Issue extras#91)
 
 ### Changed
 
-- Refactored CMake build process (Issue meta#14 sdk#49 designer#14 extras#50)
-- Update wildcards in gitignore (Issue meta#24 sdk#63 designer#28 extras#89)
-- Update CSV File Writer/Reader - Stimulations only (Issue sdk#55)
+- Build : Refactored CMake build process (Issue meta#14 sdk#49 designer#14 extras#50)
+- Dev : Update wildcards in gitignore (Issue meta#24 sdk#63 designer#28 extras#89)
+- Box : Update CSV File Writer/Reader - Stimulations only (Issue sdk#55)
 
 ### Removed
 
-- Ogre games and dependencies (Issue meta#23 sdk#68 designer#27 extras#88)
-- Mensia distribution (Issue designer#19)
+- Dependency : Ogre games and dependencies (Issue meta#23 sdk#68 designer#27 extras#88)
+- Build : Mensia distribution (Issue designer#19)
 
 ### Fixed
 
-- Intermittent bug compiler (Issue designer#31)
+- Build : Intermittent bug compiler (Issue designer#31)
 
 ## [3.1.0]
 
