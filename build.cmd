@@ -50,19 +50,19 @@ call %baseDir%\windows-init-env.cmd --platform-target %platformTarget%
 echo generator for cmake is: %generator%
 
 if %buildTool% == Ninja (
-    mkdir %baseDir%\build\
-    cd %baseDir%\build\
+	mkdir %baseDir%\build\%platformTarget%
+	cd %baseDir%\build\%platformTarget%
 
-	cmake .. -G %generator% -DCMAKE_BUILD_TYPE=%buildType% -DBUILD_ARCH=%platformTarget%
+	cmake %baseDir% -G %generator% -DCMAKE_BUILD_TYPE=%buildType% -DBUILD_ARCH=%platformTarget%
 	if not "!ERRORLEVEL!" == "0" goto terminate_error
 	
 	ninja install
 	if not "!ERRORLEVEL!" == "0" goto terminate_error
 ) else (
-    mkdir %baseDir%\build-vs\
-    cd %baseDir%\build-vs\
+    mkdir %baseDir%\build-vs\%platformTarget%
+    cd %baseDir%\build-vs\%platformTarget%
 
-	cmake .. -G %generator% -DBUILD_ARCH=%platformTarget%
+	cmake %baseDir% -G %generator% -DBUILD_ARCH=%platformTarget%
 	if not "!ERRORLEVEL!" == "0" goto terminate_error
 	
 	rem msbuild OpenVIBE.sln /p:Configuration=%buildType% /p:Platform=%platformTarget%
