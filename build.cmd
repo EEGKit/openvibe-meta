@@ -53,7 +53,7 @@ if %buildTool% == Ninja (
 	mkdir %baseDir%\build\%platformTarget%
 	cd %baseDir%\build\%platformTarget%
 
-	cmake %baseDir% -G %generator% -DCMAKE_BUILD_TYPE=%buildType% -DBUILD_ARCH=%platformTarget%
+	cmake %baseDir% -G %generator% -DCMAKE_BUILD_TYPE=%buildType% -DBUILD_ARCH=%platformTarget% -DCMAKE_INSTALL_PREFIX=%baseDir%\dist\%platformTarget%\%buildType%
 	if not "!ERRORLEVEL!" == "0" goto terminate_error
 	
 	ninja install
@@ -62,7 +62,7 @@ if %buildTool% == Ninja (
     mkdir %baseDir%\build-vs\%platformTarget%
     cd %baseDir%\build-vs\%platformTarget%
 
-	cmake %baseDir% -G %generator% -DBUILD_ARCH=%platformTarget%
+	cmake %baseDir% -G %generator% -DBUILD_ARCH=%platformTarget% -DCMAKE_INSTALL_PREFIX=%baseDir%\dist\%platformTarget%\
 	if not "!ERRORLEVEL!" == "0" goto terminate_error
 	
 	rem msbuild OpenVIBE.sln /p:Configuration=%buildType% /p:Platform=%platformTarget%
