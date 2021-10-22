@@ -25,7 +25,7 @@ node("${NodeName}") {
 		dependencies_dir = "${WORKSPACE}/dependencies"
 		dependencies_base = "${WORKSPACE}/dependencies"
 	} else {
-		build_dir = "${WORKSPACE}\\build"
+		build_dir = "${WORKSPACE}\\build\\${PlatformTarget}"
 		dist_dir = "${WORKSPACE}\\dist"
 		if( "${PlatformTarget}" == "x64") {
 			dependencies_dir = "${WORKSPACE}\\dependencies_x64"
@@ -97,7 +97,7 @@ node("${NodeName}") {
 	}
 
 	stage('Tests SDK') {
-		dir ("build/sdk") {
+		dir ("${build_dir}/sdk") {
 			dir("unit-test/Testing") {
 				deleteDir()
 			}
@@ -120,7 +120,7 @@ node("${NodeName}") {
 	}
 
 	stage('Tests Extras') {
-		dir ("build/extras") {
+		dir ("${build_dir}/extras") {
 			dir("Testing") {
 				deleteDir()
 			}
