@@ -151,7 +151,7 @@ node("${NodeName}") {
 			dir("package") {
 				deleteDir()
 				withEnv(["PATH+NSIS=${dependencies_dir}\\nsis_log_zip_access"]) {
-					bat "makensis /DDEPENDENCIES_DIR=${dependencies_dir} /DOUTFILE=${WORKSPACE}\\package\\openvibe-${OpenViBEVersion}-${PlatformTarget}-setup.exe ${WORKSPACE}\\extras\\scripts\\windows-openvibe-x.x.x-setup-${PlatformTarget}.nsi"
+					bat "makensis /DDEPENDENCIES_DIR=${dependencies_dir} /DOUTFILE=${WORKSPACE}\\package\\openvibe-${OpenViBEVersion}-${PlatformTarget}-setup.exe ${build_dir}\\extras\\scripts\\windows-openvibe-${OpenViBEVersion}-setup-${PlatformTarget}.nsi"
 				}
 				withEnv(["PATH+CMAKE=${dependencies_dir}\\cmake\\bin"]) {
 					bat "@cmake -E md5sum openvibe-${OpenViBEVersion}-${PlatformTarget}-setup.exe >openvibe-${OpenViBEVersion}-${PlatformTarget}-setup.md5"
