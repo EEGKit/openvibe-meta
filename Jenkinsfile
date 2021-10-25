@@ -25,7 +25,7 @@ node("${NodeName}") {
 		dependencies_dir = "${WORKSPACE}/dependencies"
 		dependencies_base = "${WORKSPACE}/dependencies"
 	} else {
-		build_dir = "${WORKSPACE}\\build"
+		build_dir = "${WORKSPACE}\\build\\${PlatformTarget}"
 		dist_dir = "${WORKSPACE}\\dist"
 		if( "${PlatformTarget}" == "x64") {
 			dependencies_dir = "${WORKSPACE}\\dependencies_x64"
@@ -97,7 +97,7 @@ node("${NodeName}") {
 	}
 
 	stage('Tests SDK') {
-		dir ("build/sdk") {
+		dir ("${build_dir}/sdk") {
 			dir("unit-test/Testing") {
 				deleteDir()
 			}
@@ -120,7 +120,7 @@ node("${NodeName}") {
 	}
 
 	stage('Tests Extras') {
-		dir ("build/extras") {
+		dir ("${build_dir}/extras") {
 			dir("Testing") {
 				deleteDir()
 			}
@@ -151,7 +151,10 @@ node("${NodeName}") {
 			dir("package") {
 				deleteDir()
 				withEnv(["PATH+NSIS=${dependencies_dir}\\nsis_log_zip_access"]) {
-					bat "makensis /DDEPENDENCIES_DIR=${dependencies_dir} /DOUTFILE=${WORKSPACE}\\package\\openvibe-${OpenViBEVersion}-${PlatformTarget}-setup.exe ${WORKSPACE}\\extras\\scripts\\windows-openvibe-x.x.x-setup-${PlatformTarget}.nsi"
+					bat """
+                        for %%I in ("${build_dir}\\extras\\scripts\\windows-openvibe-*-setup-${PlatformTarget}.nsi") do set "nsiScript=%%I"
+                    	makensis /DDEPENDENCIES_DIR=${dependencies_dir} /DOUTFILE=${WORKSPACE}\\package\\openvibe-${OpenViBEVersion}-${PlatformTarget}-setup.exe %nsiScript%
+                    """
 				}
 				withEnv(["PATH+CMAKE=${dependencies_dir}\\cmake\\bin"]) {
 					bat "@cmake -E md5sum openvibe-${OpenViBEVersion}-${PlatformTarget}-setup.exe >openvibe-${OpenViBEVersion}-${PlatformTarget}-setup.md5"
