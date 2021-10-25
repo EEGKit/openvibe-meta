@@ -7,20 +7,14 @@
 		 
 |People|
 
-OV 3.1.0 staff in alphabetical order
-
-- Arthur Desbois / Inria
-- Thibaut Monseigne / Inria
-- Theodore Papadopoulo / Inria
-- Thomas Prampart / Inria
-
-Developers of previous versions,
+OpenViBE staff in alphabetical order
 
  - Guillermo Andrade-Barroso / Inria
  - Laurent Bonnet / Inria, Mensia
  - Alison Cellard / Inria
  - Jerome Chabrol / Inria 
- - Vincent Delannoy / Inria 
+ - Vincent Delannoy / Inria
+ - Arthur Desbois / Inria
  - Agnes Dos Santos / Mensia 
  - Morgane Fauvet / Mensia
  - Nathanael Foy / Inria 
@@ -31,9 +25,11 @@ Developers of previous versions,
  - Jussi T. Lindgren / Inria 
  - Fabien Lotte / Inria
  - Loic Mahe / Inria
+ - Thibaut Monseigne / Inria
  - Baptiste Payan / Inria
  - Benoit Perrin / Mensia
  - Alexis Placet / Mensia
+ - Thomas Prampart / Inria
  - Yann Renard / Inria, Mensia
  - Bruno Renier / Inria
  - Cedric Riou / Inria 
