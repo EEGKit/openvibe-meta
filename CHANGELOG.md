@@ -33,7 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Box : Artifact Subspace Reconstruction (ASR) Box (Issue extras#45)
 - Box : Matrix 3D to 2D Box (Issue extras#64)
-- Box : Bidirectionnal Unity games box (Issue #61)
+- Box : Bidirectionnal Unity games box (Issue extras#61)
 - Doc : Changelog (Issue meta#15)
 
 ### Changed
