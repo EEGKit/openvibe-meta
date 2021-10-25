@@ -5,13 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.1.0]
+## [3.2.0] 2020-10-25
+
+### Added
+
+- Box : Metabox to perform log of signal power (Issue extras#95)
+- Data : Artifacted files for algorithm tests (Issue extras#91)
+
+### Changed
+
+- Build : Refactored CMake build process (Issue meta#14, sdk#49, designer#14, extras#50)
+- Dev : Update wildcards in gitignore (Issue meta#24, sdk#63, designer#28, extras#89)
+- Box : Update CSV File Writer/Reader - Stimulations only (Issue sdk#55)
+
+### Removed
+
+- Dependency : Ogre games and dependencies (Issue meta#23, sdk#68, designer#27, extras#88)
+- Build : Mensia distribution (Issue designer#19)
+
+### Fixed
+
+- Build : Intermittent bug compiler (Issue designer#31)
+
+## [3.1.0] 2021-04-30 ([release announcement](http://openvibe.inria.fr/forum/viewtopic.php?f=1&t=10203))
 
 ### Added
 
 - Box : Artifact Subspace Reconstruction (ASR) Box (Issue extras#45)
 - Box : Matrix 3D to 2D Box (Issue extras#64)
-- Box : Bidirectionnal Unity games box (Issue#61)
+- Box : Bidirectionnal Unity games box (Issue extras#61)
 - Doc : Changelog (Issue meta#15)
 
 ### Changed

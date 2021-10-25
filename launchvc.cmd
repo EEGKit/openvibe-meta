@@ -29,8 +29,6 @@ call :addToPathIfExists expat\bin
 call :addToPathIfExists itpp\bin
 call :addToPathIfExists lua\lib
 call :addToPathIfExists gtk\bin
-call :addToPathIfExists cegui\bin
-call :addToPathIfExists cegui\dependencies\bin
 call :addToPathIfExists pthreads\lib
 call :addToPathIfExists openal\libs\win32
 call :addToPathIfExists freealut\lib
@@ -39,8 +37,6 @@ call :addToPathIfExists libogg\win32\bin\debug
 call :addToPathIfExists libvorbis\win32\bin\release
 call :addToPathIfExists libvorbis\win32\bin\debug
 call :addToPathIfExists liblsl\lib
-call :addToPathIfExists ogre\bin\release
-call :addToPathIfExists ogre\bin\debug
 call :addToPathIfExists vrpn\bin
 call :addToPathIfExists openal\libs\Win32
 call :addToPathIfExists liblsl\lib

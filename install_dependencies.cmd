@@ -4,7 +4,7 @@ setlocal enableextensions
 
 REM The dependencies are hosted by Inria
 set PROXYPASS=anon:anon
-set URL=http://openvibe.inria.fr/dependencies/win32/3.1.0/
+set URL=http://openvibe.inria.fr/dependencies/win32/3.2.0/
 
 set base_dir=%~dp0
 set dependencies_prefix=%base_dir%\dependencies
