@@ -26,11 +26,12 @@ project(Dependencies)
 # #############################################################################
 # Setup
 # #############################################################################
+set(EP_DEPENDENCIES_DIR "${CMAKE_SOURCE_DIR}/../dependencies" CACHE PATH "Directory where dependencies should be installed")
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
-set(DEPENDENCIES_WORK_DIR ${CMAKE_SOURCE_DIR}/arch)
+set(EP_DEPENDENCIES_WORK_DIR ${CMAKE_SOURCE_DIR}/arch CACHE PATH "Directory where dependencies will be downloaded and built")
 
-if (NOT DEPENDENCIES_DIR)
-    message(FATAL_ERROR "DEPENDENCIES_DIR variable required")
+if ("${EP_DEPENDENCIES_DIR}" STREQUAL "")
+    message(FATAL_ERROR "EP_DEPENDENCIES_DIR variable required")
 endif()
 
 include(Boost)

@@ -42,6 +42,7 @@ if (NOT USE_SYSTEM_${LIB})
 
     # Modules to build
     set(WITH_MODULES
+            --with-atomic
             --with-chrono
             --with-date_time
             --with-filesystem
@@ -54,28 +55,48 @@ if (NOT USE_SYSTEM_${LIB})
     if(UNIX)
         set(CONFIG_CMD ./bootstrap.sh)
         set(BUILD_CMD ./b2)
-        set(${LIB}_CXXFLAGS "-fPIC")
+        set(${LIB}_CXXFLAGS cxxflags="-fPIC")
     else()
         if(WIN32)
-            set(CONFIG_COMMAND bootstrap.bat)
+            set(CONFIG_CMD bootstrap.bat)
             set(BUILD_CMD b2.exe)
+            message(STATUS "toolset veresion: ${MSVC_TOOLSET_VERSION}")
+            if(${MSVC_TOOLSET_VERSION} STREQUAL "120")
+                set(${LIB}_TOOLSET toolset=msvc-12.0)
+            elseif(${MSVC_TOOLSET_VERSION} STREQUAL "140")
+                set(${LIB}_TOOLSET toolset=msvc-14.0)
+            elseif(${MSVC_TOOLSET_VERSION} STREQUAL "141")
+                set(${LIB}_TOOLSET toolset=msvc-14.1)
+            elseif(${MSVC_TOOLSET_VERSION} STREQUAL "142")
+                set(${LIB}_TOOLSET toolset=msvc-14.2)
+            else()
+                message(WARNING "${LIB} install MSVC toolset not defined")
+            endif()
+            if(${CMAKE_GENERATOR_PLATFORM} STREQUAL "x64")
+                set(${LIB}_ADDRESS_MODEL "address-model=64")
+            else()
+                set(${LIB}_ADDRESS_MODEL "address-model=32")
+            endif()
         endif()
     endif()
 
+
+    # Setup build type (options are "release | debug")
+    set(${LIB}_BUILD_TYPE "variant=release")
     # Setup link option (options are "static", "shared" or "static,shared")
-    set(${LIB}_LINK "static")
+    set(${LIB}_LINK "link=static")
 
     ## #############################################################################
     ## Add external-project
     ## #############################################################################
 
     ExternalProject_Add(${LIB}
-            PREFIX ${DEPENDENCIES_WORK_DIR}/${LIB}
+            PREFIX ${EP_DEPENDENCIES_WORK_DIR}/${LIB}
             GIT_REPOSITORY ${GIT_URL}
             GIT_TAG ${GIT_TAG}
             BUILD_IN_SOURCE ON
-            CONFIGURE_COMMAND ${CONFIG_CMD} --prefix=${DEPENDENCIES_DIR}/${LIB}
-            BUILD_COMMAND ${BUILD_CMD} install link=${${LIB}_LINK} cxxflags=${${LIB}_CXXFLAGS} ${WITH_MODULES}
+            CONFIGURE_COMMAND ${CONFIG_CMD}
+            BUILD_COMMAND ${BUILD_CMD} install ${${LIB}_BUILD_TYPE} ${${LIB}_ADDRESS_MODEL} ${${LIB}_TOOLSET} ${${LIB}_LINK} ${${LIB}_CXXFLAGS} ${WITH_MODULES} --prefix=${EP_DEPENDENCIES_DIR}/${LIB}
             INSTALL_COMMAND ""
             DEPENDS ${${LIB}_DEPENDENCIES}
     )
