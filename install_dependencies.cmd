@@ -96,8 +96,14 @@ cd %baseDir%\external_projects\build
 
 call %baseDir%\windows-init-env.cmd --platform-target %platformTarget%
 
-cmake .. -G "Visual Studio 12 2013" -A "x64" -DEP_DEPENDENCIES_DIR=%dependenciesDir%
-msbuild Dependencies.sln /p:Configuration=Release /p:Platform=x64 /verbosity:minimal
+if /i "%platformTarget%" equ "x64" (
+	set generatorPlatform=x64
+) else (
+    set generatorPlatform=Win32
+)
+
+cmake .. -G "Visual Studio 12 2013" -A "!generatorPlatform!" -DEP_DEPENDENCIES_DIR=%dependenciesDir%
+msbuild Dependencies.sln /p:Configuration=Release /p:Platform=!generatorPlatform! /verbosity:minimal
 
 rem -- #############################################################################
 rem -- Install remaining dependencies - original script method
