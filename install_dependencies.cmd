@@ -79,7 +79,7 @@ if  "%cmakeNeeded%" == "y" (
         )
         rem extract archive
         echo Extract cmake archive
-        unzip -q !cmakeFolder!.zip
+        powershell -Command "Expand-Archive !cmakeFolder!.zip -DestinationPath ."
     )
     powershell -Command "Copy-Item -Path !cmakeFolder! -Destination %dependenciesDir%\cmake -Recurse -Force"
 

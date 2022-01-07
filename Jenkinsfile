@@ -79,12 +79,9 @@ node("${NodeName}") {
 	
 	stage('Update dependencies') {
 		if(isUnix()) {
-			sh """#!/bin/bash
-		        perl sdk/scripts/linux-install_dependencies.pl --manifest-dir sdk/scripts/ --dependencies-dir ${dependencies_dir} --assume-yes 
-		        perl sdk/scripts/linux-install_dependencies.pl --manifest-dir designer/scripts/ --dependencies-dir ${dependencies_dir} --assume-yes
-		        perl sdk/scripts/linux-install_dependencies.pl --manifest-dir extras/scripts/ --dependencies-dir ${dependencies_dir} --assume-yes """
+			sh "./install_dependencies.sh"
 		} else {
-			bat "install_dependencies.cmd --dependencies-dir ${dependencies_base} --platform-target ${PlatformTarget}"
+			bat "install_dependencies.cmd --platform-target ${PlatformTarget}"
 		}
 	}
 	
