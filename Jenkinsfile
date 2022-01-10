@@ -44,7 +44,7 @@ node("${NodeName}") {
     dir("${dependencies_dir}") {
         deleteDir()
     }
-    dir("external_projects/buid") {
+    dir("external_projects/build") {
         deleteDir()
     }
 	dir("build") {
