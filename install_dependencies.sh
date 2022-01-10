@@ -99,7 +99,7 @@ mkdir -p external_projects/build
 cd external_projects/build
 
 # generate dependencies project
-cmake .. -DDEPENDENCIES_DIR=$dependencies_dir
+cmake .. -DEP_DEPENDENCIES_DIR=$dependencies_dir
 if [ $? -ne 0 ]; then
   exit 1
 fi
@@ -109,7 +109,6 @@ make
 if [ $? -ne 0 ]; then
   exit 1
 fi
-
 # #############################################################################
 # Install remaining dependencies - original script method
 # Deprecated method

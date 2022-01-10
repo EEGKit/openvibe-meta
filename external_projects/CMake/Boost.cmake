@@ -41,21 +41,52 @@ if (NOT USE_SYSTEM_${LIB})
     set(GIT_TAG boost-${LIB_VERSION})
 
     # Modules to build
-    set(WITH_MODULES
-            --with-atomic
-            --with-chrono
-            --with-date_time
-            --with-filesystem
-            --with-regex
-            --with-system
-            --with-thread
-    )
+    #set(WITH_MODULES
+    #        --with-atomic
+    #        --with-chrono
+    #        --with-date_time
+    #        --with-filesystem
+    #        --with-regex
+    #        --with-system
+    #        --with-thread
+    #)
+
+    set(${LIB}_MODULES
+            tools
+            libs/config
+            libs/headers
+
+            libs/algorithm
+            libs/array
+            libs/asio
+            libs/atomic
+            libs/bind
+            libs/chrono
+            libs/core
+            libs/date_time
+            libs/filesystem
+            libs/interprocess
+            libs/lexical_cast
+            libs/lockfree
+            libs/math
+            libs/optional
+            libs/predef
+            libs/regex
+            libs/serialization
+            libs/smart_ptr
+            libs/spirit
+            libs/system
+            libs/thread
+            libs/type_traits  # required by smart_ptr
+            libs/utility
+            libs/variant)
 
     # Setup build
     if(UNIX)
         set(CONFIG_CMD ./bootstrap.sh)
         set(BUILD_CMD ./b2)
         set(${LIB}_CXXFLAGS cxxflags="-fPIC")
+        set(REDIRECT_OUTPUT > /dev/null)
     else()
         if(WIN32)
             set(CONFIG_CMD bootstrap.bat)
@@ -77,6 +108,7 @@ if (NOT USE_SYSTEM_${LIB})
             else()
                 set(${LIB}_ADDRESS_MODEL "address-model=32")
             endif()
+            set(REDIRECT_OUTPUT >NUL)
         endif()
     endif()
 
@@ -94,10 +126,11 @@ if (NOT USE_SYSTEM_${LIB})
             PREFIX ${EP_DEPENDENCIES_WORK_DIR}/${LIB}
             GIT_REPOSITORY ${GIT_URL}
             GIT_TAG ${GIT_TAG}
+            GIT_SUBMODULES ${${LIB}_MODULES}
             BUILD_IN_SOURCE ON
             CONFIGURE_COMMAND ${CONFIG_CMD}
-            BUILD_COMMAND ${BUILD_CMD} install ${${LIB}_BUILD_TYPE} ${${LIB}_ADDRESS_MODEL} ${${LIB}_TOOLSET} ${${LIB}_LINK} ${${LIB}_CXXFLAGS} ${WITH_MODULES} --prefix=${EP_DEPENDENCIES_DIR}/${LIB}
-            INSTALL_COMMAND ""
+            BUILD_COMMAND ${BUILD_CMD} ${${LIB}_BUILD_TYPE} ${${LIB}_ADDRESS_MODEL} ${${LIB}_TOOLSET} ${${LIB}_LINK} ${${LIB}_CXXFLAGS}
+            INSTALL_COMMAND ${BUILD_CMD} install ${${LIB}_BUILD_TYPE} ${${LIB}_ADDRESS_MODEL} ${${LIB}_TOOLSET} ${${LIB}_LINK} ${${LIB}_CXXFLAGS} --prefix=${EP_DEPENDENCIES_DIR}/${LIB} ${REDIRECT_OUTPUT}
             DEPENDS ${${LIB}_DEPENDENCIES}
     )
 
