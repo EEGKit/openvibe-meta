@@ -71,20 +71,30 @@ if (NOT USE_SYSTEM_${LIB})
             libs/detail
             libs/exception
             libs/filesystem
+            libs/foreach
+            libs/format
             libs/function
+            libs/function_types
+            libs/fusion
             libs/interprocess
             libs/integer
+            libs/intrusive
             libs/iterator
             libs/io
+            libs/iostreams
             libs/lexical_cast
             libs/lockfree
             libs/math
             libs/move
             libs/mpl
+            libs/multiprecision
             libs/numeric
             libs/optional
+            libs/parameter
+            libs/phoenix
             libs/predef
             libs/preprocessor
+            libs/proto
             libs/range
             libs/ratio
             libs/regex
@@ -99,6 +109,8 @@ if (NOT USE_SYSTEM_${LIB})
             libs/tuple
             libs/type_index
             libs/type_traits
+            libs/typeof
+            libs/unordered
             libs/utility
             libs/variant
     )
@@ -142,7 +154,6 @@ if (NOT USE_SYSTEM_${LIB})
     ## #############################################################################
     ## Add external-project
     ## #############################################################################
-
     ExternalProject_Add(${LIB}
             PREFIX ${EP_DEPENDENCIES_WORK_DIR}/${LIB}
             GIT_REPOSITORY ${GIT_URL}
