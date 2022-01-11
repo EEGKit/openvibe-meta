@@ -47,6 +47,9 @@ node("${NodeName}") {
     dir("external_projects/build") {
         deleteDir()
     }
+    dir("external_projects/arch") {
+        deleteDir()
+    }
 	dir("build") {
 		deleteDir()
 	}
