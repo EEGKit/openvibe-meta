@@ -41,56 +41,78 @@ if (NOT USE_SYSTEM_${LIB})
     set(GIT_TAG boost-${LIB_VERSION})
 
     # Modules to build
-    #set(WITH_MODULES
-    #        --with-atomic
-    #        --with-chrono
-    #        --with-date_time
-    #        --with-filesystem
-    #        --with-regex
-    #        --with-system
-    #        --with-thread
-    #)
+    set(WITH_MODULES
+            --with-atomic
+            --with-chrono
+            --with-date_time
+            --with-filesystem
+            --with-regex
+            --with-system
+            --with-thread
+    )
 
+    # Libs needed
     set(${LIB}_MODULES
             tools
             libs/config
             libs/headers
-
             libs/algorithm
             libs/array
             libs/asio
+            libs/assert
             libs/atomic
             libs/bind
             libs/chrono
+            libs/concept_check
+            libs/container
+            libs/container_hash
             libs/core
             libs/date_time
+            libs/detail
+            libs/exception
             libs/filesystem
+            libs/function
             libs/interprocess
+            libs/integer
+            libs/iterator
+            libs/io
             libs/lexical_cast
             libs/lockfree
             libs/math
+            libs/move
+            libs/mpl
+            libs/numeric
             libs/optional
             libs/predef
+            libs/preprocessor
+            libs/range
+            libs/ratio
             libs/regex
             libs/serialization
             libs/smart_ptr
             libs/spirit
+            libs/static_assert
             libs/system
             libs/thread
-            libs/type_traits  # required by smart_ptr
+            libs/throw_exception
+            libs/tokenizer
+            libs/tuple
+            libs/type_index
+            libs/type_traits
             libs/utility
-            libs/variant)
+            libs/variant
+    )
 
     # Setup build
     if(UNIX)
         set(CONFIG_CMD ./bootstrap.sh)
         set(BUILD_CMD ./b2)
         set(${LIB}_CXXFLAGS cxxflags="-fPIC")
-        set(REDIRECT_OUTPUT > /dev/null)
     else()
         if(WIN32)
             set(CONFIG_CMD bootstrap.bat)
             set(BUILD_CMD b2.exe)
+            list(APPEND ${LIB}_MODULES libs/winapi)
             message(STATUS "toolset veresion: ${MSVC_TOOLSET_VERSION}")
             if(${MSVC_TOOLSET_VERSION} STREQUAL "120")
                 set(${LIB}_TOOLSET toolset=msvc-12.0)
@@ -108,7 +130,6 @@ if (NOT USE_SYSTEM_${LIB})
             else()
                 set(${LIB}_ADDRESS_MODEL "address-model=32")
             endif()
-            set(REDIRECT_OUTPUT >NUL)
         endif()
     endif()
 
@@ -129,8 +150,8 @@ if (NOT USE_SYSTEM_${LIB})
             GIT_SUBMODULES ${${LIB}_MODULES}
             BUILD_IN_SOURCE ON
             CONFIGURE_COMMAND ${CONFIG_CMD}
-            BUILD_COMMAND ${BUILD_CMD} ${${LIB}_BUILD_TYPE} ${${LIB}_ADDRESS_MODEL} ${${LIB}_TOOLSET} ${${LIB}_LINK} ${${LIB}_CXXFLAGS}
-            INSTALL_COMMAND ${BUILD_CMD} install ${${LIB}_BUILD_TYPE} ${${LIB}_ADDRESS_MODEL} ${${LIB}_TOOLSET} ${${LIB}_LINK} ${${LIB}_CXXFLAGS} --prefix=${EP_DEPENDENCIES_DIR}/${LIB} ${REDIRECT_OUTPUT}
+            BUILD_COMMAND ${BUILD_CMD} ${${LIB}_BUILD_TYPE} ${${LIB}_ADDRESS_MODEL} ${${LIB}_TOOLSET} ${${LIB}_LINK} ${${LIB}_CXXFLAGS} ${WITH_MODULES}
+            INSTALL_COMMAND ${BUILD_CMD} install ${${LIB}_BUILD_TYPE} ${${LIB}_ADDRESS_MODEL} ${${LIB}_TOOLSET} ${${LIB}_LINK} ${${LIB}_CXXFLAGS} ${WITH_MODULES} --prefix=${EP_DEPENDENCIES_DIR}/${LIB}
             DEPENDS ${${LIB}_DEPENDENCIES}
     )
 
