@@ -51,7 +51,9 @@ if (NOT USE_SYSTEM_${LIB})
             --with-thread
     )
 
-    # Libs needed
+    # Libs needed / Saves a few minutes of dependency building to limit to what is needed.
+    # Will need updating when another lib is needed.
+    # Can be removed if too constraining.
     set(${LIB}_MODULES
             tools
             libs/config
@@ -158,7 +160,7 @@ if (NOT USE_SYSTEM_${LIB})
             PREFIX ${EP_DEPENDENCIES_WORK_DIR}/${LIB}
             GIT_REPOSITORY ${GIT_URL}
             GIT_TAG ${GIT_TAG}
-            #GIT_SUBMODULES ${${LIB}_MODULES}
+            GIT_SUBMODULES ${${LIB}_MODULES}
             BUILD_IN_SOURCE ON
             CONFIGURE_COMMAND ${CONFIG_CMD}
             BUILD_COMMAND ${BUILD_CMD} ${${LIB}_BUILD_TYPE} ${${LIB}_ADDRESS_MODEL} ${${LIB}_TOOLSET} ${${LIB}_LINK} ${${LIB}_CXXFLAGS} ${WITH_MODULES}
