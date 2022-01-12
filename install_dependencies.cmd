@@ -54,14 +54,36 @@ set PATH=%PATH%;%dependenciesDir%\cmake\bin
 
 WHERE cmake >NUL
 if not errorlevel 1 (
-  echo cmake found!
-  set cmakeNeeded=n
-  rem TODO: Check version is high enough
+    rem get cmake version
+    set firstLine=1
+    for /f "usebackq tokens=3" %%i in (`cmake --version`) do (
+        if !firstLine!==1 set cmakeVersionFound=%%i
+        set firstLine=0
+    )
+
+    rem check version found
+    for /f "tokens=1,2 delims=." %%i in ("!cmakeVersionFound!") do (
+        if  %%i LSS %versionMajor% goto cmakeIsNeeded
+        if  %%i GTR %versionMajor% goto cmakeIsNotNeeded
+        if  %%j LSS %versionMinor% goto cmakeIsNeeded
+        goto cmakeIsNotNeeded
+    )
+
+    :cmakeIsNeeded
+    echo CMake version found [!cmakeVersionFound!] is lower than required [%versionMajor%.%versionMinor%.%versionPatch%]
+    set cmakeNeeded=y
+    goto next
+
+    :cmakeIsNotNeeded
+    echo CMake version found is Ok
+    set cmakeNeeded=n
+    goto next
 ) else (
     echo CMake not found on the machine
     set cmakeNeeded=y
 )
 
+:next
 if  "%cmakeNeeded%" == "y" (
     echo Installing CMake version %versionMajor%.%VersionMinor% in %dependenciesDir%
 
