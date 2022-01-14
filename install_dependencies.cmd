@@ -31,8 +31,8 @@ rem -- #########################################################################
 
 rem -- CMake minimum version required (major.minor)
 set versionMajor=3
-set versionMinor=12
-set versionPatch=4
+set versionMinor=13
+set versionPatch=5
 
 
 set workDir=%cd%
@@ -124,7 +124,7 @@ if /i "%platformTarget%" equ "x64" (
     set generatorPlatform=Win32
 )
 
-cmake .. -G "Visual Studio 12 2013" -A "!generatorPlatform!" -DEP_DEPENDENCIES_DIR=%dependenciesDir%
+cmake .. -G "Visual Studio 12 2013" -A !generatorPlatform! -DEP_DEPENDENCIES_DIR=%dependenciesDir%
 msbuild Dependencies.sln /p:Configuration=Release /p:Platform=!generatorPlatform! /verbosity:minimal
 
 rem -- #############################################################################
