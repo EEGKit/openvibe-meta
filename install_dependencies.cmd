@@ -31,8 +31,8 @@ rem -- #########################################################################
 
 rem -- CMake minimum version required (major.minor)
 set versionMajor=3
-set versionMinor=13
-set versionPatch=5
+set versionMinor=14
+set versionPatch=6
 
 
 set workDir=%cd%
