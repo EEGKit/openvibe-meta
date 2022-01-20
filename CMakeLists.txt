@@ -135,6 +135,13 @@ set(MISC_FOLDER Misc)
 set(TESTS_FOLDER Unit-Tests)
 set(VALIDATION_FOLDER Validation-Tests)
 
+# #############################################################################
+# Find external projects
+include("FindThirdPartyBoost")
+
+# #############################################################################
+# Add OpenViBE subdirectories
+
 # Add SDK to build
 add_subdirectory(sdk)
 
