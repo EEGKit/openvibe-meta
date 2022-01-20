@@ -1,24 +1,22 @@
 # Coding Style Guide
 
----
 ## General rules
 
----
 ### Base rules
-The base rules applied to this project are from the Google C++ Style Guide: https://google.github.io/styleguide/cppguide.html  
-Any rule listed bellow takes precedence over the corresponding rule  
+The base rules applied to this project are from the Google C++ Style Guide: https://google.github.io/styleguide/cppguide.html.  
+Any rule listed below takes precedence over the corresponding rule.  
 For any rule/guidance not mentioned here, please refer to the base guide. 
 
 ### Naming
 
 - User defined data types are in UpperCamelCase with the following prefixes:
 <pre>
-  - Interface: IUpperCamelCase
-  - Class:     CUpperCamelCase
-  - Template:  TUpperCamelCase
-  - Struct:    SUpperCamelCase
-  - Enum:      EUpperCamelCase
-  - Union:     UUpperCamelCase
+  Interface: IUpperCamelCase
+  Class:     CUpperCamelCase
+  Template:  TUpperCamelCase
+  Struct:    SUpperCamelCase
+  Enum:      EUpperCamelCase
+  Union:     UUpperCamelCase
 </pre>
 
 - Variables are in lowerCamelCase
@@ -52,10 +50,10 @@ For any rule/guidance not mentioned here, please refer to the base guide.
 
 ### Commenting
 
-Code must be documented with doxygen comments  
-Commonly used block comments are `///` or `/**`  
-Commonly used inline comments are `///<` or `/**<`  
-Below is an example of different styles.
+Code must be documented with doxygen comments.  
+Commonly used block comments are `///` or `/** */`.  
+Commonly used inline comments are `///<` or `/**< */`.  
+Below is an example of different styles:
 ```cpp 
 /**
  * \brief Class for handling file writing/reading
@@ -87,4 +85,4 @@ class CFileHandling
 }
 ```
 Be mindful **not to mix styles** within a file or set of files.  
-More infos about documenting code: https://www.doxygen.nl/manual/docblocks.html
+More infos about documenting code: https://www.doxygen.nl/manual/docblocks.html.
