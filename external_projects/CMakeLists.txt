@@ -35,3 +35,4 @@ if ("${EP_DEPENDENCIES_DIR}" STREQUAL "")
 endif()
 
 include(Boost)
+include(Lua)
