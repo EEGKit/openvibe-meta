@@ -47,19 +47,6 @@ if (NOT USE_SYSTEM_${LIB})
     set(${LIB}_URL https://www.lua.org/ftp/lua-${LIB_VERSION}.tar.gz)
 
     # #############################################################################
-    # Setup platform
-    # #############################################################################
-    #if(UNIX)
-    #    set(${LIB}_PLATFORM linux)
-    #    set(${LIB}_PATCH_COMMAND patch -p0 < ${CMAKE_SOURCE_DIR}/patches/${LIB}.patch)
-    #elseif(WIN32)
-    #    set(${LIB}_PLATFORM generic)
-    #endif()
-
-    message(STATUS " *** CMAKE_GENERATOR: ${CMAKE_GENERATOR}")
-    message(STATUS " *** CMAKE_EXTRA_GENERATOR: ${CMAKE_EXTRA_GENERATOR}")
-    message(STATUS " *** CMAKE_GENERATOR_PLATFORM: ${CMAKE_GENERATOR_PLATFORM}")
-    # #############################################################################
     # Add external-project
     # #############################################################################
     ExternalProject_Add(${LIB}
