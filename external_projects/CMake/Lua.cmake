@@ -30,6 +30,13 @@ set(LIB_VERSION 5.1.4)
 list(APPEND ${LIB}_DEPENDENCIES "")
 
 # #############################################################################
+# CMake Arguments
+# #############################################################################
+set(${LIB}_CMAKE_ARGS
+    -DINSTALL_DIR=${EP_DEPENDENCIES_DIR}
+)
+
+# #############################################################################
 # Prepare the project
 # #############################################################################
 if (NOT USE_SYSTEM_${LIB})
@@ -42,22 +49,27 @@ if (NOT USE_SYSTEM_${LIB})
     # #############################################################################
     # Setup platform
     # #############################################################################
-    if(UNIX)
-        set(${LIB}_PLATFORM linux)
-        set(${LIB}_PATCH_COMMAND patch -p0 < ${CMAKE_SOURCE_DIR}/patches/${LIB}.patch)
-    endif()
+    #if(UNIX)
+    #    set(${LIB}_PLATFORM linux)
+    #    set(${LIB}_PATCH_COMMAND patch -p0 < ${CMAKE_SOURCE_DIR}/patches/${LIB}.patch)
+    #elseif(WIN32)
+    #    set(${LIB}_PLATFORM generic)
+    #endif()
 
+    message(STATUS " *** CMAKE_GENERATOR: ${CMAKE_GENERATOR}")
+    message(STATUS " *** CMAKE_EXTRA_GENERATOR: ${CMAKE_EXTRA_GENERATOR}")
+    message(STATUS " *** CMAKE_GENERATOR_PLATFORM: ${CMAKE_GENERATOR_PLATFORM}")
     # #############################################################################
     # Add external-project
     # #############################################################################
     ExternalProject_Add(${LIB}
             PREFIX ${EP_DEPENDENCIES_WORK_DIR}/${LIB}
             URL ${${LIB}_URL}
-            PATCH_COMMAND ${${LIB}_PATCH_COMMAND}
+            PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/patches/LuaCMakeLists.txt ${EP_DEPENDENCIES_WORK_DIR}/${LIB}/src/${LIB}/CMakeLists.txt
             BUILD_IN_SOURCE ON
-            CONFIGURE_COMMAND ""
-            BUILD_COMMAND make ${${LIB}_PLATFORM} ${${LIB}_LDFLAGS}
-            INSTALL_COMMAND make install INSTALL_TOP=${EP_DEPENDENCIES_DIR}/${LIB}
+            CMAKE_GENERATOR ${CMAKE_GENERATOR}
+            CMAKE_GENERATOR_PLATFORM ${CMAKE_GENERATOR_PLATFORM}
+            CMAKE_ARGS ${${LIB}_CMAKE_ARGS}
             DEPENDS ${${LIB}_DEPENDENCIES}
             )
 
