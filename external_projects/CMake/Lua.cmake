@@ -58,7 +58,7 @@ if (NOT USE_SYSTEM_${LIB})
             CMAKE_GENERATOR_PLATFORM ${CMAKE_GENERATOR_PLATFORM}
             CMAKE_ARGS ${${LIB}_CMAKE_ARGS}
             DEPENDS ${${LIB}_DEPENDENCIES}
-            )
+    )
 
 endif() #NOT USE_SYSTEM_LIB
 

@@ -19,7 +19,7 @@
 
 get_property(OV_PRINTED GLOBAL PROPERTY OV_TRIED_ThirdPartyLua)
 
-# CMake FindLua looks LUA_DIR in ENV variables
+# CMake FindLua looks at LUA_DIR in ENV variables
 set(ENV{LUA_DIR} ${LIST_DEPENDENCIES_PATH}/lua)
 
 find_package(Lua 5.1 REQUIRED)
@@ -35,7 +35,7 @@ IF(LUA_FOUND)
     target_compile_definitions(lua INTERFACE -DTARGET_HAS_ThirdPartyLua)
 
 ELSE()
-    OV_PRINT(OV_PRINTED "  FAILED to find Lua")
+    ov_print(OV_PRINTED "  FAILED to find Lua")
 ENDIF()
 
-SET_PROPERTY(GLOBAL PROPERTY OV_TRIED_ThirdPartyLua "Yes")
+set_property(GLOBAL PROPERTY OV_TRIED_ThirdPartyLua "Yes")

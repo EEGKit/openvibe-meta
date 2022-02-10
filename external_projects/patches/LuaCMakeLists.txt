@@ -5,7 +5,6 @@ cmake_policy(SET CMP0076 NEW)
 project (lua)  # project here actually means solution in premake
 
 # 1. lua static library
-# how to rename library name?
 add_library (${PROJECT_NAME} STATIC
 			 src/lauxlib.h src/lua.h src/luaconf.h src/lualib.h
 			 src/lapi.c src/lapi.h src/lauxlib.c src/lbaselib.c src/lcode.c src/lcode.h src/ldblib.c src/ldebug.c src/ldebug.h src/ldo.c src/ldo.h src/ldump.c src/
@@ -21,22 +20,6 @@ if(UNIX)
 elseif(WIN32)
     target_compile_definitions(${PROJECT_NAME} PRIVATE -D_CRT_SECURE_NO_WARNINGS )
 endif()
-
-# 2. lua interpreter
-#link_directories (${LUA_BINARY_DIR})
-#add_executable (lua src/lua.c)
-#target_link_libraries (lua lualib)
-#if(UNIX)
-#        target_link_libraries( lua m )
-#endif()
-
-# 3. lua compiler
-#link_directories (${LUA_BINARY_DIR})
-#add_executable (luac src/luac.c)
-#target_link_libraries (luac lualib)
-#if(UNIX)
-#        target_link_libraries( luac m )
-#endif()
 
 install(TARGETS ${PROJECT_NAME}
 		PUBLIC_HEADER DESTINATION ${INSTALL_DIR}/${PROJECT_NAME}/include
