@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.14)
 
 cmake_policy(SET CMP0026 OLD)
 cmake_policy(SET CMP0039 NEW)
@@ -138,6 +138,7 @@ set(VALIDATION_FOLDER Validation-Tests)
 # #############################################################################
 # Find external projects
 include("FindThirdPartyBoost")
+include("FindThirdPartyLua")
 
 # #############################################################################
 # Add OpenViBE subdirectories
