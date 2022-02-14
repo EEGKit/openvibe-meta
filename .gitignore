@@ -6,10 +6,6 @@
 /dependencies_x64
 /external_projects/build
 /external_projects/arch
-OpenViBE-Meta.sln
-OpenViBE-Meta.sdf
-OpenViBE-Meta.v12.suo
-designer-extras.vcxproj.user
 
 # Editor swap files etc ...
 CMakeLists.txt.*
@@ -24,5 +20,10 @@ CustomCMakeLists.txt
 .vs/
 .vscode/
 .idea/
-doc/html/*
+
+*.log
 *-output.*
+
+# file Configurated
+documentation/Doxyfile
+documentation/Main.md
