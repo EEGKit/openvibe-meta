@@ -85,8 +85,6 @@ set(DIST_BINDIR ${DIST_ROOT}/bin)
 set(DIST_LIBDIR ${DIST_ROOT}/lib)
 set(DIST_INCLUDEDIR ${DIST_ROOT}/include)
 set(DIST_DATADIR ${DIST_ROOT}/share)
-set(DIST_DOCDIR ${DIST_ROOT}/doc)
-set(DIST_DOCTMP ${DIST_ROOT}/doc-tmp)
 set(DIST_SYSCONFDIR ${DIST_ROOT}/etc)
 set(DIST_BINDIR_ABSOLUTE ${DIST_BINDIR})
 
@@ -117,6 +115,15 @@ option(OV_DISPLAY_ERROR_LOCATION "display complete error locations" ON)
 option(OV_PACKAGE "Create a package in build directory" OFF)
 option(BUILD_VALIDATION_TEST "Build the validation tests" ON)
 option(BUILD_UNIT_TEST "Build the unit tests" ON)
+option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" OFF)
+
+message(STATUS "META OPTIONS : ")
+message(STATUS "  Flag_VerboseOutput = '${Flag_VerboseOutput}'")
+message(STATUS "  OV_DISPLAY_ERROR_LOCATION = '${OV_DISPLAY_ERROR_LOCATION}'")
+message(STATUS "  OV_PACKAGE = '${OV_PACKAGE}'")
+message(STATUS "  BUILD_VALIDATION_TEST = '${BUILD_VALIDATION_TEST}'")
+message(STATUS "  BUILD_UNIT_TEST = '${BUILD_UNIT_TEST}'")
+message(STATUS "  BUILD_DOCUMENTATION = '${BUILD_DOCUMENTATION}'")
 
 # Add some dependencies to PATH
 #Could (SHOULD) be replaced with find_path / find_package functionnalities
@@ -124,6 +131,12 @@ set(ENV{PATH} "$ENV{PATH};${LIST_DEPENDENCIES_PATH}/expat/bin")
 set(ENV{PATH} "$ENV{PATH};${LIST_DEPENDENCIES_PATH}/vcredist")
 set(ENV{PATH} "$ENV{PATH};${LIST_DEPENDENCIES_PATH}/xerces-c/lib")
 set(ENV{PATH} "$ENV{PATH};${LIST_DEPENDENCIES_PATH}/gtk/bin")
+
+# By setting SKIP[_FOLDER]* you can skip a subtree (example: SKIP_A_B_C skips folder a/b/c and all its subfolders if any)
+# Skip building documentation
+# a list of all project which will be filled by the directory traversal. This is needed to generate the documentation.
+set_property(GLOBAL PROPERTY OV_PROP_CURRENT_PROJECTS "")
+set_property(GLOBAL PROPERTY OV_PROP_CURRENT_PROJECTS_BUILD_DIR "")
 
 # Sort target into directories for better visualization in IDE
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -151,3 +164,8 @@ add_subdirectory(designer)
 
 # Add extras to build
 add_subdirectory(extras)
+
+# Add Documentation to Build
+if(BUILD_DOCUMENTATION)
+	add_subdirectory(documentation)
+endif()
