@@ -1,10 +1,7 @@
 ###############################################################################
 # Software License Agreement (AGPL-3 License)
 #
-# Module to include in order to get all needed dependencies for OpenViBE
-# as CMake targets directly.
-#
-# Copyright (C) Inria 2021
+# Module to find Eigen library
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License version 3,
@@ -20,20 +17,21 @@
 # If not, see <http://www.gnu.org/licenses/>.
 ###############################################################################
 
-cmake_minimum_required(VERSION 3.12)
-project(Dependencies)
+get_property(OV_PRINTED GLOBAL PROPERTY OV_TRIED_ThirdPartyEigen)
 
-# #############################################################################
-# Setup
-# #############################################################################
-set(EP_DEPENDENCIES_DIR "${CMAKE_SOURCE_DIR}/../dependencies" CACHE PATH "Directory where dependencies should be installed")
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
-set(EP_DEPENDENCIES_WORK_DIR ${CMAKE_SOURCE_DIR}/arch CACHE PATH "Directory where dependencies will be downloaded and built")
-
-if ("${EP_DEPENDENCIES_DIR}" STREQUAL "")
-    message(FATAL_ERROR "EP_DEPENDENCIES_DIR variable required")
+if(EXISTS ${LIST_DEPENDENCIES_PATH}/eigen)
+    set(Eigen3_ROOT ${LIST_DEPENDENCIES_PATH}/eigen)
 endif()
 
-include(Boost)
-include(Eigen)
-include(Lua)
+find_package(Eigen3 3.3.7)
+
+if(TARGET Eigen3::Eigen)
+    message(STATUS "Found Eigen")
+    target_compile_options(Eigen3::Eigen
+                           INTERFACE -DTARGET_HAS_ThirdPartyEIGEN
+    )
+else()
+    message(WARNING "Failed to find Eigen3")
+endif()
+
+set_property(GLOBAL PROPERTY OV_TRIED_ThirdPartyEigen "Yes")
