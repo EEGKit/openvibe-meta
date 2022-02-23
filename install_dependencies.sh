@@ -38,7 +38,7 @@ if [ $(command -v cmake) ]; then
     minor_found=${BASH_REMATCH[2]}
     echo "CMake found v$major_found.$minor_found."
     # Compare version found with version required
-    if [[ $major_found > $version_major || ($major_found == $version_major  && $minor_found > $version_minor) ]]; then
+    if [[ $major_found > $version_major || ($major_found == $version_major  && $minor_found -ge $version_minor) ]]; then
       echo "CMake version ok"
     else
       echo "CMake version lower than required [v$version_major.$version_minor]"
@@ -52,7 +52,7 @@ fi
 
 if [ "$cmakeNeeded" = true ]; then
   echo "Installing CMake version $version_major.$version_minor in $dependencies_dir"
-  exit
+ 
   cmake_folder="cmake-$version_major.$version_minor.$version_patch"
 
   arch=$(uname -m)
@@ -91,6 +91,16 @@ if [ "$cmakeNeeded" = true ]; then
 fi
 
 # #############################################################################
+# Install remaining dependencies - original script method
+# Deprecated method
+# #############################################################################
+
+cd $work_dir
+perl sdk/scripts/linux-install_dependencies.pl --manifest-dir sdk/scripts/ --dependencies-dir $dependencies_dir
+perl sdk/scripts/linux-install_dependencies.pl --manifest-dir designer/scripts/ --dependencies-dir $dependencies_dir
+perl sdk/scripts/linux-install_dependencies.pl --manifest-dir extras/scripts/ --dependencies-dir $dependencies_dir
+
+# #############################################################################
 # Dependencies install - new CMake project
 # New preferred method which is cross-platform
 # #############################################################################
@@ -109,12 +119,4 @@ make
 if [ $? -ne 0 ]; then
   exit 1
 fi
-# #############################################################################
-# Install remaining dependencies - original script method
-# Deprecated method
-# #############################################################################
 
-cd $work_dir
-perl sdk/scripts/linux-install_dependencies.pl --manifest-dir sdk/scripts/ --dependencies-dir $dependencies_dir
-perl sdk/scripts/linux-install_dependencies.pl --manifest-dir designer/scripts/ --dependencies-dir $dependencies_dir
-perl sdk/scripts/linux-install_dependencies.pl --manifest-dir extras/scripts/ --dependencies-dir $dependencies_dir
