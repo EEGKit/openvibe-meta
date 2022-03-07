@@ -68,15 +68,15 @@ else(!doxygen_bin)
 		# note the space before and after the semi colon, this is for CMake not to skip empty lines
 		string(REPLACE "\n" " ; " dox_lines " ${dox_lines} ")
 		# Replace square brackets by a string key. Square brackets can potentially break the foreach bellow.
-		string(REPLACE "[" "SQUARE_BRAQUET_OPEN" dox_lines " ${dox_lines} ")
-		string(REPLACE "]" "SQUARE_BRAQUET_CLOSE" dox_lines " ${dox_lines} ")
+		string(REPLACE "[" "SQUARE_BRACKET_OPEN" dox_lines " ${dox_lines} ")
+		string(REPLACE "]" "SQUARE_BRACKET_CLOSE" dox_lines " ${dox_lines} ")
 		foreach(dox_line ${dox_lines})
 
 			# this regex removes the spaces we added before the loop
 			string(REGEX REPLACE "^ (.*) $" "\\1" dox_line ${dox_line})
 			# Restore the square brackets in the string if any
-			string(REPLACE "SQUARE_BRAQUET_OPEN" "[" dox_line " ${dox_line} ")
-			string(REPLACE "SQUARE_BRAQUET_CLOSE" "]" dox_line " ${dox_line} ")
+			string(REPLACE "SQUARE_BRACKET_OPEN" "[" dox_line " ${dox_line} ")
+			string(REPLACE "SQUARE_BRACKET_CLOSE" "]" dox_line " ${dox_line} ")
 			# we initialize several variables that will be used in this loop
 			set(dox_line_processed   FALSE)
 			set(dox_tag_begin NOTFOUND)
