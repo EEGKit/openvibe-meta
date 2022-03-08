@@ -32,10 +32,18 @@ list(APPEND ${LIB}_DEPENDENCIES "")
 # #############################################################################
 # CMake Arguments
 # #############################################################################
+set(${LIB}_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+
+if (WIN32)
+    # Prevent build error on MSCV 2017 (possibly depending on update)
+    set(${LIB}_CXX_FLAGS "${${LIB}_CXX_FLAGS} -D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING")
+endif()
+
 set(${LIB}_CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=${EP_DEPENDENCIES_DIR}/${LIB}
         -Dgtest_force_shared_crt=ON
-        )
+        -DCMAKE_CXX_FLAGS=${${LIB}_CXX_FLAGS}
+)
 
 # #############################################################################
 # Prepare the project
