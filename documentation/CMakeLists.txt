@@ -57,19 +57,26 @@ else(!doxygen_bin)
 	message(STATUS "    FILES : ${FILES}")
 
 	#----- Parsing Dox -----
-	foreach(file ${FILES})	
+	foreach(file ${FILES})
 		message(STATUS "             Documentation part found ${file}")
 		set(dox_tag_name NOTFOUND)
 		# iterates on each line of the file to look after begin/end tags "dox_tag_name" stores the name of the variable
 		# to use to configure the skeleton file. It is computed from the begin tag.
 		file(READ ${file} dox_lines)
+
 		# replaces empty cariage returns with semi colons to be compliant with CMake lists. 
 		# note the space before and after the semi colon, this is for CMake not to skip empty lines
 		string(REPLACE "\n" " ; " dox_lines " ${dox_lines} ")
+		# Replace square brackets by a string key. Square brackets can potentially break the foreach bellow.
+		string(REPLACE "[" "SQUARE_BRACKET_OPEN" dox_lines " ${dox_lines} ")
+		string(REPLACE "]" "SQUARE_BRACKET_CLOSE" dox_lines " ${dox_lines} ")
 		foreach(dox_line ${dox_lines})
+
 			# this regex removes the spaces we added before the loop
 			string(REGEX REPLACE "^ (.*) $" "\\1" dox_line ${dox_line})
-
+			# Restore the square brackets in the string if any
+			string(REPLACE "SQUARE_BRACKET_OPEN" "[" dox_line " ${dox_line} ")
+			string(REPLACE "SQUARE_BRACKET_CLOSE" "]" dox_line " ${dox_line} ")
 			# we initialize several variables that will be used in this loop
 			set(dox_line_processed   FALSE)
 			set(dox_tag_begin NOTFOUND)
@@ -121,7 +128,6 @@ else(!doxygen_bin)
 			endif(dox_tag_name AND NOT dox_line_processed)
 		endforeach(dox_line)
 	endforeach(file)
-
 	# Install the remaining resource files
 	# now we have stored all the begin/end tagged things in variable, we just have to configure the skeleton configuration files with those variables.
 	# note that the skeleton files should be prepared to receive the CMake variables with anywhere it is needed.
