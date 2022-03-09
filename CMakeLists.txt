@@ -151,9 +151,9 @@ set(VALIDATION_FOLDER Validation-Tests)
 # #############################################################################
 # Find external projects
 include("FindThirdPartyBoost")
-include("FindThirdPartyLua")
 include("FindThirdPartyEigen")
-
+include("FindThirdPartyGTest")
+include("FindThirdPartyLua")
 
 # #############################################################################
 # Add OpenViBE subdirectories

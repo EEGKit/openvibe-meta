@@ -36,4 +36,5 @@ endif()
 
 include(Boost)
 include(Eigen)
+include(GTest)
 include(Lua)
