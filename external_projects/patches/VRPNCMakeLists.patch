@@ -1,0 +1,22 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5dc9bff5..ec27f7cb 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -807,7 +807,7 @@ if(VRPN_BUILD_EXTRA_COMPILER_WARNINGS)
+ 	globally_enable_extra_compiler_warnings()
+ endif()
+ 
+-set(VRPN_CLIENT_ONLY)
++set(VRPN_CLIENT_ONLY OFF)
+ if(VRPN_BUILD_CLIENT_LIBRARY AND NOT VRPN_BUILD_SERVER_LIBRARY)
+ 	# We can define VRPN_CLIENT_ONLY in the header in this case!
+ 	set(VRPN_CLIENT_ONLY ON)
+@@ -1167,7 +1167,7 @@ if(VRPN_BUILD_CLIENT_LIBRARY)
+ 		PUBLIC_HEADER
+ 		${VRPN_CLIENT_PUBLIC_HEADERS})
+ 
+-	if(NOT VRPN_CLIENT_ONLY)
++	if(VRPN_CLIENT_ONLY)
+ 		set_property(TARGET
+ 			vrpn
+ 			PROPERTY

@@ -14,8 +14,8 @@
 
 # CMake minimum version required (major.minor)
 version_major=3
-version_minor=14
-version_patch=6
+version_minor=16
+version_patch=9
 
 work_dir=$(pwd)
 dependencies_dir=$work_dir/dependencies
