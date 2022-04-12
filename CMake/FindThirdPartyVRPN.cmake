@@ -38,6 +38,8 @@ if(NOT VRPN_LIBRARY STREQUAL VRPN_LIBRARY-NOTFOUND
     target_compile_definitions(vrpn INTERFACE -DTARGET_HAS_ThirdPartyVRPN)
 
 else()
+    # Add empty target to avoid errors in CMakeLists linking against it
+    add_library(vrpn INTERFACE)
     ov_print(OV_PRINTED "  FAILED to find VRPN")
 endif()
 
