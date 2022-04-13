@@ -26,10 +26,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Doc : Update Doc to simplify geneation and add All source code (Issue meta#33, sdk#90, designer#36, extra#115)
 - Doc : Update Doc to specify deprecated functions (Issue meta#36, sdk#91, sdk#93)
 - Doc : Update Doc parsing for open range (Issue meta#39)
+- Build : Change Linux Distribution Verification to allow all (Issue sdk#96)
 - Build : Change binary Library to source code for Boost (Issue meta#30, sdk#86, designer#35)
 - Build : Change binary Library to source code for LUA (Issue meta#34, extra#116)
 - Build : Change binary Library to source code for Eigen (Issue meta#37, sdk#94, designer#37, extra#117)
 - Build : Change binary Library to source code for GTest (Issue meta#40, sdk#95, extra#119)
+- Build : Change binary Library to source code for VRPN (Issue meta#41, extra#120)
 
 ### Fixed
 
