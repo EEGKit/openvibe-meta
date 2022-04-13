@@ -35,7 +35,6 @@ if(NOT VRPN_LIBRARY STREQUAL VRPN_LIBRARY-NOTFOUND
     add_library(vrpn INTERFACE)
     target_include_directories(vrpn INTERFACE ${VRPN_DIR}/include)
     target_link_libraries(vrpn INTERFACE ${VRPN_LIBRARY} ${QUAT_LIBRARY})
-    target_compile_definitions(vrpn INTERFACE -DTARGET_HAS_ThirdPartyVRPN)
 
 else()
     # Add empty target to avoid errors in CMakeLists linking against it
