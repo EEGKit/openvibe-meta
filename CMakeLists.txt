@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.16)
 
 cmake_policy(SET CMP0026 OLD)
 cmake_policy(SET CMP0039 NEW)
@@ -154,6 +154,7 @@ include("FindThirdPartyBoost")
 include("FindThirdPartyEigen")
 include("FindThirdPartyGTest")
 include("FindThirdPartyLua")
+include("FindThirdPartyVRPN")
 
 # #############################################################################
 # Add OpenViBE subdirectories
