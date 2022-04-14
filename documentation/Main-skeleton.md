@@ -35,3 +35,5 @@ The tutorials and user manual, as well as build instructions for OpenViBE are lo
 
 This documentation is licenced under CC-BY-SA  
 [![cc-by-sa](cc-by-sa.png)](http://creativecommons.org/licenses/by-sa/3.0/legalcode)
+
+\subpage License  
