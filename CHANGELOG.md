@@ -5,7 +5,49 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.2.0] 2020-10-25
+## [3.3.0] 2022-04-30
+
+### Added
+
+- Box : LSL generic Communication BOx (Import/Export) (Issue extras#101)
+- Dev : Add LSL Module (Issue extras#108)
+- Dev : Add Eigen Module (Issue extras#107)
+- Dev : Add Coding Rules in repository (Issue meta#31)
+
+### Changed
+
+- Box : Update Temporal Filter, remove useless settings and allow multiple temporal filter (Issue sdk#71, designer#32, extras#98)
+- Box : Allow multiple stimulations to stimulation based epoching (No Issue, Merge Request sdk#194)
+- Dev : Update CMatrix (Issue sdk#73)
+- Dev : Improve Kernel CStimulationSet Class (Issue sdk#76, designer#33, extras#103)
+- Dev : Improve Kernel CError Class (Issue sdk#77, designer#34, extras#109)
+- Dev : Improve Kernel CNameValuePairList Class (Issue sdk#81)
+- Dev : Remove Itpp on signal processing plugin and tests concerning boxes (Issue extra#114)
+- Doc : Update Doc to simplify geneation and add All source code (Issue meta#33, sdk#90, designer#36, extra#115)
+- Doc : Update Doc to specify deprecated functions (Issue meta#36, sdk#91, sdk#93)
+- Doc : Update Doc parsing for open range (Issue meta#39)
+- Build : Change Linux Distribution Verification to allow all (Issue sdk#96)
+- Build : Change binary Library to source code for Boost (Issue meta#30, sdk#86, designer#35)
+- Build : Change binary Library to source code for LUA (Issue meta#34, extra#116)
+- Build : Change binary Library to source code for Eigen (Issue meta#37, sdk#94, designer#37, extra#117)
+- Build : Change binary Library to source code for GTest (Issue meta#40, sdk#95, extra#119)
+- Build : Change binary Library to source code for VRPN (Issue meta#41, extra#120)
+
+### Fixed
+
+- Box : Matrix variance missing square root (Issue extras#92)
+- Box : Update Boxes in validation test scenarios (Issue sdk#75)
+- Box : Update Boxes in CSP trainer metabox (Issue extra#112)
+- Box : Bug when we update setting on classifiers (Issue sdk#69)
+- Box : Bug with stimulation multiplexer (Issue sdk#88)
+- Box : Bug with xDawn Box (Issue sdk#89)
+- Build : Bug Cmake default install prefix (Issue meta#29)
+- Build : Bug Linux install dependencies (Issue meta#38)
+- Dev : Bug XML module read write (Issue sdk#83)
+- Dev : Bug Boost asio endian (Issue extra#55, extra#100)
+- Doc : Fix typo on some documentation (Issue extra#113)
+
+## [3.2.0] 2021-10-25 ([release announcement](http://openvibe.inria.fr/forum/viewtopic.php?f=1&t=10240))
 
 ### Added
 
