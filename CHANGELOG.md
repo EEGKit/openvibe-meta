@@ -5,7 +5,58 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.2.0] 2020-10-25
+## [3.3.0] 2022-04-21
+
+### Added
+
+- Box : LSL generic Communication BOx (Import/Export) (Issue extras#101)
+- Dev : LSL Module (Issue extras#108)
+- Dev : Eigen Module (Issue extras#107)
+- Dev : Guidelines markdown (Issue meta#31)
+- Build : External Projects - Dependencies install from sources with CMake (Issue meta#30)
+
+### Changed
+
+- Box : Temporal Filter settings. Allow multiple temporal filters (Issue sdk#71, designer#32, extras#98)
+- Box : Stimulation Based Epoching handle multiple events (Merge Request sdk#194)
+- Box : Boxes in validation test scenarios (Issue sdk#75)
+- Box : Sign Change Detector box changed to Threshold Crossing Detector (Issue extras#123) 
+- Dev : CMatrix buffer copy (Issue sdk#73)
+- Dev : CMatrix helper methods (Issue sdk#47)
+- Dev : CStimulationSet Class helper methods (Issue sdk#76, designer#33, extras#103)
+- Dev : CNameValuePairList API (Issue sdk#81)
+- Dev : Itpp replaced by Eigen on signal processing plugin, and tests added (Issue extras#114)
+- Doc : Doxygen generation parsing all code and functioning on all platforms (Issue meta#33, sdk#90, designer#36, extras#115)
+- Doc : Doxygen specify deprecated functions (Issue meta#36, sdk#91, sdk#93)
+- Doc : Dox-part parsing for open range (Issue meta#39)
+- Build : Dependencies install allowed on any version for Fedora and Ubuntu (Issue sdk#96)
+- Build : Boost moved to external projects and version updated to 1.71 (Issue meta#30, sdk#86, designer#35, extras#100)
+- Build : LUA moved to external projects (Issue meta#34, extras#116)
+- Build : Eigen moved to external projects (Issue meta#37, sdk#94, designer#37, extras#117)
+- Build : GTest moved to external projects and version updated to 1.8 (Issue meta#40, sdk#95, extras#119)
+- Build : VRPN moved to external projects (Issue meta#41, extras#120)
+
+### Fixed
+
+- Box : Matrix variance computation (Issue extras#92)
+- Box : Boxes in CSP trainer metabox (Issue extras#112)
+- Box : Classifier setting update (Issue sdk#69)
+- Box : Stimulation multiplexer time concurrency (Issue sdk#88)
+- Box : xDawn box file saving (Issue sdk#89)
+- Build : CMake default install prefix (Issue meta#29)
+- Build : Bug Linux install dependencies (Issue meta#38)
+- Build : Out of tree compilation (Issue meta#27)
+- Dev : XML module read-write parsing (Issue sdk#83)
+- Doc : Fix typos in some documentations (Issue extras#113)
+
+### Removed
+
+- Dev : IMatrix interface for CMatrix class (Issue sdk#47)
+- Dev : IStimulationSet interface for CStimulationSet Class (Issue sdk#76, designer#33, extras#103)
+- Dev : IError interface for CError Class (Issue sdk#77, designer#34, extras#109)
+- Dev : PImpl idiom for CNameValuePairList class (Issue sdk#81)
+
+## [3.2.0] 2021-10-25 ([release announcement](http://openvibe.inria.fr/forum/viewtopic.php?f=1&t=10240))
 
 ### Added
 

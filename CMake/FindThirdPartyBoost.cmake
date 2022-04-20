@@ -5,18 +5,11 @@
 # ---------------------------------
 
 get_property(OV_PRINTED GLOBAL PROPERTY OV_TRIED_ThirdPartyBoost)
+if(EXISTS ${LIST_DEPENDENCIES_PATH}/boost)
+    set(ENV{BOOST_ROOT} ${LIST_DEPENDENCIES_PATH}/boost)
+endif()
 
-find_path(PATH_BOOST "include/boost/config/auto_link.hpp" PATHS ${LIST_DEPENDENCIES_PATH} PATH_SUFFIXES boost NO_DEFAULT_PATH)
-find_path(PATH_BOOST "include/boost/config/auto_link.hpp" PATHS ${LIST_DEPENDENCIES_PATH} PATH_SUFFIXES boost)
-
-if(PATH_BOOST)
-	OV_PRINT(OV_PRINTED "  Found boost includes...")
-	include_directories(${PATH_BOOST}/include)
-
-	add_definitions(-DTARGET_HAS_Boost)
-else(PATH_BOOST)
-	OV_PRINT(OV_PRINTED "  FAILED to find boost includes...")
-endif(PATH_BOOST)
+set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost 1.71.0 COMPONENTS chrono filesystem regex system thread)
 
 set_property(GLOBAL PROPERTY OV_TRIED_ThirdPartyBoost "Yes")
-
