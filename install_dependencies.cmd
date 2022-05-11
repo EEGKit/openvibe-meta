@@ -97,13 +97,13 @@ if  "%cmakeNeeded%" == "y" (
     if not exist !cmakeFolder! (
         if not exist !cmakeFolder!.zip (
             rem get archive
-            powershell -Command "Invoke-WebRequest  http://www.cmake.org/files/v%versionMajor%.%versionMinor%/!cmakeFolder!.zip -OutFile !cmakeFolder!".zip
+            powershell -NoProfile -Command "Invoke-WebRequest  http://www.cmake.org/files/v%versionMajor%.%versionMinor%/!cmakeFolder!.zip -OutFile !cmakeFolder!".zip
         )
         rem extract archive
         echo Extract cmake archive
-        powershell -Command "Expand-Archive !cmakeFolder!.zip -DestinationPath ."
+        powershell -NoProfile -Command "Expand-Archive !cmakeFolder!.zip -DestinationPath ."
     )
-    powershell -Command "Copy-Item -Path !cmakeFolder! -Destination %dependenciesDir%\cmake -Recurse -Force"
+    powershell -NoProfile -Command "Copy-Item -Path !cmakeFolder! -Destination %dependenciesDir%\cmake -Recurse -Force"
 
     cd %workDir%
 )
