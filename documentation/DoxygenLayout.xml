@@ -29,6 +29,8 @@
 
 			<tab type="user" visible="yes" title="OpenViBE Stream Structures" url="@ref StreamStructures"/>
 
+			<tab type="user" visible="yes" title="OpenViBE File Format" url="@ref FileFormat"/>
+
 			<tab type="usergroup" visible="yes" title="What is EBML" url="@ref WhatIsEBML">
 				<tab type="user" visible="yes" title="Parsing EBML streams" url="@ref ParsingEBML"/>
 				<tab type="user" visible="yes" title="Formating EBML streams" url="@ref FormatingEBML"/>
