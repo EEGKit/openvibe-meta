@@ -116,6 +116,7 @@ rem -- #########################################################################
 mkdir %baseDir%\external_projects\build >NUL
 cd %baseDir%\external_projects\build
 
+rem Initialise compiler environment and cmakeGenerator variable
 call %baseDir%\windows-init-env.cmd --platform-target %platformTarget%
 
 if /i "%platformTarget%" equ "x64" (
@@ -124,7 +125,7 @@ if /i "%platformTarget%" equ "x64" (
     set generatorPlatform=Win32
 )
 
-cmake .. -G "Visual Studio 12 2013" -A !generatorPlatform! -DEP_DEPENDENCIES_DIR=%dependenciesDir%
+cmake .. -G %cmakeGenerator% -DEP_DEPENDENCIES_DIR=%dependenciesDir%
 msbuild Dependencies.sln /p:Configuration=Release /p:Platform=!generatorPlatform! /verbosity:minimal
 
 rem -- #############################################################################

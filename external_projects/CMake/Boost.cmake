@@ -88,6 +88,7 @@ if (NOT USE_SYSTEM_${LIB})
             libs/lockfree
             libs/math
             libs/move
+            libs/mp11
             libs/mpl
             libs/multiprecision
             libs/numeric

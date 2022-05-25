@@ -2,21 +2,14 @@
 
 set PATH=C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin;%PATH%
 set "SCRIPT_PATH=%~dp0"
+set platformTarget=x64
+set visualStudioTools=
+set cmakeGenerator=
+set vcvarsallPath=
 
 :parameter_parse
-
 if /i "%1" == "--platform-target" (
 	set PlatformTarget=%2
-	if "%2"=="x64" (
-		set PLATFORM=x64
-		set VSPLATFORMGENERATOR=Win64
-	) else if "%2"=="x86" (
-		set PLATFORM=x86
-		set VSPLATFORMGENERATOR=
-	) else (
-		echo Unknown platform %2 target
-		Goto terminate
-	)
 	SHIFT
 	SHIFT
 
@@ -25,72 +18,47 @@ if /i "%1" == "--platform-target" (
 	echo unrecognized option [%1]
 	Goto terminate_error
 )
-
-
-
 REM ########################################################################################################################
 
-REM # Set to 1 to skip new compilers.
-if not defined SKIP_VS2017 (
-	SET SKIP_VS2017=1
-)
-if not defined SKIP_VS2015 (
-	SET SKIP_VS2015=1
-)
-if not defined SKIP_VS2013 (
-	SET SKIP_VS2013=0
+if %platformTarget% NEQ x64 (
+    if %platformTarget% NEQ x86 (
+        echo "Error: Unsupported platform-target %platformTarget%"
+        pause
+        exit 1
+    )
 )
 
-SET VSTOOLS=
-SET VSCMake=
-set VCVARSALLPATH=../../VC/vcvarsall.bat
+rem Check for MSVC 2017
+if exist "%ProgramFiles(x86)%/Microsoft Visual Studio/Installer/" (
+    for /f "usebackq delims=#" %%a in (`"%ProgramFiles(x86)%/Microsoft Visual Studio/Installer/vswhere" -version 15.0 -property installationPath`) do (
+        set "visualStudioTools=%%a"
+        set "vcvarsallPath=/VC/Auxiliary/Build/vcvarsall.bat"
+        set cmakeGenerator="Visual Studio 15 2017" -A %PlatformTarget%
+    )
+)
 
-if %SKIP_VS2017% == 0 (
-	set "VSTOOLS=%VS150COMNTOOLS%"
-	set VSCMake=Visual Studio 15 2017
-) else if %SKIP_VS2015% == 0 (
-	echo Visual Studio 2017 detection skipped as requested
-	set "VSTOOLS=%VS140COMNTOOLS%"
-	set VSCMake=Visual Studio 14 2015
+rem If MSVC not found above
+if ["%visualStudioTools%"] == [""] (
+    rem Use Visual Studio 2013 (different tools access method).
+    set "visualStudioTools=%VS120COMNTOOLS%"
+    set "vcvarsallPath=../../VC/vcvarsall.bat"
+    set cmakeGenerator="Visual Studio 12 2013 %VSPLATFORMGENERATOR%"
+)
+
+if exist "%visualStudioTools%%vcvarsallPath%" (
+    echo "Found %cmakeGenerator% tools: %visualStudioTools%%vcvarsallPath% %PlatformTarget%"
+    call "%visualStudioTools%%vcvarsallPath%" %PlatformTarget%
 ) else (
-	echo Visual Studio 2017 detection skipped as requested
-	echo Visual Studio 2015 detection skipped as requested
-	set "VSTOOLS=%VS120COMNTOOLS%"
-	set VSCMake=Visual Studio 12 2013
+    echo,
+    echo **************************************************
+    echo,
+    echo ERROR: No supported version of Visual Studio were found.
+    echo Supported versions are:
+    echo  - Visual Studio 15 2017
+    echo  - Visual Studio 12 2013
+    echo,
+    echo **************************************************
+    echo,
+    pause
+    exit 1
 )
-
-echo VStools: %VSTOOLS%, VSCMake: %VSCMake%.
-if exist "!VSTOOLS!%VCVARSALLPATH%" (
-	if %PlatformTarget% == x64 (
-		if exist "!VSTOOLS!../../VC/bin/x64" (
-			echo Found %VSCMake% tools: !VSTOOLS!%VCVARSALLPATH% %PlatformTarget%
-			call "!VSTOOLS!%VCVARSALLPATH%" %PlatformTarget%
-		) else (
-			echo Found %VSCMake% tools: !VSTOOLS!%VCVARSALLPATH% x86_amd64
-			call "!VSTOOLS!%VCVARSALLPATH%" x86_amd64
-		)
-	) else (
-		echo Found %VSCMake% tools: !VSTOOLS!vsvars32.bat
-		call "!VSTOOLS!vsvars32.bat"
-	)
-	goto terminate
-)
-
-set VSCMake=!VSCMake! %VSPLATFORMGENERATOR%
-
-goto terminate_success
-
-:terminate_error
-
-echo An error occured during environment initializing !
-
-pause
-exit 1
-
-REM #######################################################################################
-:terminate_success
-
-goto terminate
-
-REM #######################################################################################
-:terminate
