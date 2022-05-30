@@ -4,6 +4,7 @@ set PATH=C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin;%PATH%
 set "SCRIPT_PATH=%~dp0"
 set platformTarget=x64
 set visualStudioTools=
+set configurationType=
 set cmakeGenerator=
 set vcvarsallPath=
 
@@ -33,7 +34,8 @@ if exist "%ProgramFiles(x86)%/Microsoft Visual Studio/Installer/" (
     for /f "usebackq delims=#" %%a in (`"%ProgramFiles(x86)%/Microsoft Visual Studio/Installer/vswhere" -version 15.0 -property installationPath`) do (
         set "visualStudioTools=%%a"
         set "vcvarsallPath=/VC/Auxiliary/Build/vcvarsall.bat"
-        set cmakeGenerator="Visual Studio 15 2017" -A %PlatformTarget%
+        set configurationType=%platformTarget%
+        set cmakeGenerator="Visual Studio 15 2017" -A %platformTarget%
     )
 )
 
@@ -42,12 +44,18 @@ if ["%visualStudioTools%"] == [""] (
     rem Use Visual Studio 2013 (different tools access method).
     set "visualStudioTools=%VS120COMNTOOLS%"
     set "vcvarsallPath=../../VC/vcvarsall.bat"
-    set cmakeGenerator="Visual Studio 12 2013 %VSPLATFORMGENERATOR%"
+    set cmakeGenerator="Visual Studio 12 2013" -A %platformTarget%
+    set configurationType=%platformTarget%
+    if %platformTarget% == x64 (
+        if not exist "%VS120COMNTOOLS%../../VC/bin/amd64" (
+            set configurationType=x86_amd64
+        )
+    )
 )
 
 if exist "%visualStudioTools%%vcvarsallPath%" (
-    echo "Found %cmakeGenerator% tools: %visualStudioTools%%vcvarsallPath% %PlatformTarget%"
-    call "%visualStudioTools%%vcvarsallPath%" %PlatformTarget%
+    echo "Found %cmakeGenerator% tools: %visualStudioTools%%vcvarsallPath% %configurationType%"
+    call "%visualStudioTools%%vcvarsallPath%" %configurationType%
 ) else (
     echo,
     echo **************************************************
