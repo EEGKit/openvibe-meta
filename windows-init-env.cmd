@@ -35,7 +35,11 @@ if exist "%ProgramFiles(x86)%/Microsoft Visual Studio/Installer/" (
         set "visualStudioTools=%%a"
         set "vcvarsallPath=/VC/Auxiliary/Build/vcvarsall.bat"
         set configurationType=%platformTarget%
-        set cmakeGenerator="Visual Studio 15 2017" -A %platformTarget%
+        if %platformTarget% == x64 (
+            set cmakeGenerator="Visual Studio 15 2017" -A %platformTarget%
+        ) else (
+            set cmakeGenerator="Visual Studio 15 2017" -A Win32
+        )
     )
 )
 
@@ -44,12 +48,14 @@ if ["%visualStudioTools%"] == [""] (
     rem Use Visual Studio 2013 (different tools access method).
     set "visualStudioTools=%VS120COMNTOOLS%"
     set "vcvarsallPath=../../VC/vcvarsall.bat"
-    set cmakeGenerator="Visual Studio 12 2013" -A %platformTarget%
     set configurationType=%platformTarget%
     if %platformTarget% == x64 (
+        set cmakeGenerator="Visual Studio 12 2013" -A %platformTarget%
         if not exist "%VS120COMNTOOLS%../../VC/bin/amd64" (
             set configurationType=x86_amd64
         )
+    ) else (
+        set cmakeGenerator="Visual Studio 12 2013" -A Win32
     )
 )
 
