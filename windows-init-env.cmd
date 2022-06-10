@@ -67,7 +67,7 @@ if exist "%visualStudioTools%%vcvarsallPath%" (
     echo **************************************************
     echo,
     if exist "%visualStudioTools%" (
-        echo ERROR: Could not find C/C++ support in %visualStudioTools%
+        echo ERROR: Could not find C/C++ support in "%visualStudioTools%"
         echo        Please, ensure that you have selected the "Desktop Development with C++" module in your Visual Studio installation.
     ) else (
         echo ERROR: No supported version of Visual Studio were found.
