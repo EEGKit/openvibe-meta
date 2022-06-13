@@ -31,7 +31,7 @@ if %platformTarget% NEQ x64 (
 
 rem Check for MSVC 2017
 if exist "%ProgramFiles(x86)%/Microsoft Visual Studio/Installer/" (
-    for /f "usebackq delims=#" %%a in (`"%ProgramFiles(x86)%/Microsoft Visual Studio/Installer/vswhere" -version 15.0 -property installationPath`) do (
+    for /f "usebackq delims=#" %%a in (`"%ProgramFiles(x86)%/Microsoft Visual Studio/Installer/vswhere" -version [15.0^,16.0] -property installationPath`) do (
         set "visualStudioTools=%%a"
         set "vcvarsallPath=/VC/Auxiliary/Build/vcvarsall.bat"
         set configurationType=%platformTarget%
@@ -66,10 +66,15 @@ if exist "%visualStudioTools%%vcvarsallPath%" (
     echo,
     echo **************************************************
     echo,
-    echo ERROR: No supported version of Visual Studio were found.
-    echo Supported versions are:
-    echo  - Visual Studio 15 2017
-    echo  - Visual Studio 12 2013
+    if exist "%visualStudioTools%" (
+        echo ERROR: Could not find C/C++ support in "%visualStudioTools%"
+        echo        Please, ensure that you have selected the "Desktop Development with C++" module in your Visual Studio installation.
+    ) else (
+        echo ERROR: No supported version of Visual Studio were found.
+        echo Supported versions are:
+        echo  - Visual Studio 15 2017
+        echo  - Visual Studio 12 2013
+    )
     echo,
     echo **************************************************
     echo,
