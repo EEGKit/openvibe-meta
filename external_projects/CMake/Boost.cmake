@@ -150,7 +150,9 @@ if (NOT USE_SYSTEM_${LIB})
 
 
     # Setup build type (options are "release | debug")
-    set(${LIB}_BUILD_TYPE "variant=release")
+    string(TOLOWER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_TOLOWER)
+    set(${LIB}_BUILD_TYPE "variant=${CMAKE_BUILD_TYPE_TOLOWER}")
+
     # Setup link option (options are "static", "shared" or "static,shared")
     set(${LIB}_LINK "link=static")
 
