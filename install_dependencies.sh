@@ -36,7 +36,7 @@ version_minor=16
 version_patch=9
 
 work_dir=$(pwd)
-dependencies_dir=$work_dir/dependencies/$buildType
+dependencies_dir=$work_dir/dependencies
 dependencies_dir_archives=$dependencies_dir/arch
 if [ ! -d $dependencies_dir ]; then
   mkdir $dependencies_dir

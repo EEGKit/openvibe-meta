@@ -96,7 +96,7 @@ add_definitions(-DOV_CMAKE_PATH_LIB="${DIST_ROOT}/lib")
 add_definitions(-DOV_CMAKE_PATH_DATA="${DIST_ROOT}/share/openvibe")
 
 # Set OV variables
-set(LIST_DEPENDENCIES_PATH "${CMAKE_SOURCE_DIR}/dependencies${DEPENDENCIES_ARCH}/${CMAKE_BUILD_TYPE}" CACHE PATH "Dependencies folder" )
+set(LIST_DEPENDENCIES_PATH "${CMAKE_SOURCE_DIR}/dependencies${DEPENDENCIES_ARCH}" CACHE PATH "Dependencies folder" )
 # Create a path usable by Unix shell scripts (used by .sh launchers)
 set(OV_PATH_DEPENCENCY_LIBS "")
 foreach(TMP ${LIST_DEPENDENCIES_PATH})
