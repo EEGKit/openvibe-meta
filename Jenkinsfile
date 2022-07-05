@@ -20,13 +20,13 @@ node("${NodeName}") {
 	url_designer = "https://gitlab.inria.fr/openvibe/designer.git"
 	
 	if(isUnix()) {
-		build_dir = "${WORKSPACE}/build"
-		dist_dir = "${WORKSPACE}/dist"
+		build_dir = "${WORKSPACE}/build/${BuildType}"
+		dist_dir = "${WORKSPACE}/dist/${BuildType}"
 		dependencies_dir = "${WORKSPACE}/dependencies"
 		dependencies_base = "${WORKSPACE}/dependencies"
 	} else {
-		build_dir = "${WORKSPACE}\\build\\${PlatformTarget}"
-		dist_dir = "${WORKSPACE}\\dist"
+		build_dir = "${WORKSPACE}\\build\\${PlatformTarget}\\${BuildType}"
+		dist_dir = "${WORKSPACE}\\dist\\${BuildType}"
 		if( "${PlatformTarget}" == "x64") {
 			dependencies_dir = "${WORKSPACE}\\dependencies_x64"
 		} else {
