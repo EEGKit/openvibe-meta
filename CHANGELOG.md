@@ -5,7 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.3.0] 2022-04-21
+## [3.3.1] 2022-04-21
+
+### Added
+
+- Dev : Add a validation test functions in CMake for OpenViBE Boxes. (Issue extras#127)
+- Dev : Add a tests for nearly all boxes. (Issue extras#131, extras#132, extra#144)
+- Dev : Add a threshold comparison for CSV and XML files (used in validation tests). (Issue extras#125, extras#133)
+- Doc : Add a short doc of file format in OpenViBE. (Issue meta#45)
+
+### Changed
+
+- Box : Add Some actions in box Amplitude Artifact detector. (Issue extra#52)
+- Box : Box CSV Reader can now have file with stimulation only. (Issue sdk#100)
+- Dev : Setting of boxes can be parsed directly in std::string. (Issue sdk#113)
+- Dev : Allow std::string to convert Identifier to CIdentifier. (Issue sdk#116, designer#47)
+- Dev : Simplify library search in code. (Issue sdk#117, designer#48, extra#156)
+
+### Fixed
+
+- Box : Inverse DWT send several header. (Issue extra#143)
+- Box : Default setting of noise generator was incorrect. (Issue extra#130)
+- Box : Bug GDF Writer with stimulation. (Issue extra#118)
+- Box : Bug CSV Writer with newline in column header. (Issue sdk#99)
+- Dev : Solved a lot of Clang error and warning. (Issue designer#40, sdk#103, sdk#104, sdk#105, sdk#106, sdk#108, sdk#111, sdk#112, designer#42, designer#43, designer#45, extra#137, extra#139, extra#140, extra#145, extra#146, extra#147, extra#148, extra#149, extra#150, extra#151)
+- Build : Fix some little bugs on windows script. (Issue meta#44, meta#46, meta#49, meta#50, sdk#107, extra#136, extra#142)
+
+### Removed
+
+- Dev : Useless CString cast in header. (Issue sdk#109, extra#141)
+- Dev : Useless Inheritance for CMatrix & CStimulation class (Issue sdk#120)
+- Dev : IKernel interface for CKernel classes (Issue sdk#114)
+
+## [3.3.0] 2022-04-21 ([release announcement](http://openvibe.inria.fr/forum/viewtopic.php?f=1&t=10275))
 
 ### Added
 
