@@ -20,7 +20,7 @@ node("${NodeName}") {
 	url_designer = "https://gitlab.inria.fr/openvibe/designer.git"
 	
 	if(isUnix()) {
-		build_dir = "${WORKSPACE}/build/${BuildType}"
+		build_dir = "${WORKSPACE}/build"
 		dist_dir = "${WORKSPACE}/dist/${BuildType}"
 		dependencies_dir = "${WORKSPACE}/dependencies"
 		dependencies_base = "${WORKSPACE}/dependencies"
