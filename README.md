@@ -6,7 +6,7 @@
 
 |Build Status :|   |
 |:-------------|:-:|
-|Ubuntu 18.04 x64|[![Build Status](https://ci.inria.fr/openvibe/buildStatus/icon?job=OV-Nightly-Ubuntu18.04&style=plastic)](https://ci.inria.fr/openvibe/job/OV-Nightly-Ubuntu18.04/)|
+|Ubuntu 20.04 x64|[![Build Status](https://ci.inria.fr/openvibe/buildStatus/icon?job=OV-Nightly-Ubuntu20.04&style=plastic)](https://ci.inria.fr/openvibe/job/OV-Nightly-Ubuntu20.04/)|
 |Fedora 31 x64|[![Build Status](https://ci.inria.fr/openvibe/buildStatus/icon?job=OV-Nightly-Fedora31&style=plastic)](https://ci.inria.fr/openvibe/job/OV-Nightly-Fedora31/)|
 |Windows 10 x64|[![Build Status](https://ci.inria.fr/openvibe/buildStatus/icon?job=OV-Nightly-Win10-x64&style=plastic)](https://https://ci.inria.fr/openvibe/job/OV-Nightly-Win10-x64/)|
 |Windows 10 x86|[![Build Status](https://ci.inria.fr/openvibe/buildStatus/icon?job=OV-Nightly-Win10-x86&style=plastic)](https://ci.inria.fr/openvibe/job/OV-Nightly-Win10-x86/)|
