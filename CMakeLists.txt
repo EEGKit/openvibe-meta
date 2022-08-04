@@ -154,6 +154,7 @@ include("FindThirdPartyBoost")
 include("FindThirdPartyEigen")
 include("FindThirdPartyGTest")
 include("FindThirdPartyLua")
+include("FindThirdPartyTinyXML2")
 include("FindThirdPartyVRPN")
 
 # #############################################################################
