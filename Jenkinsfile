@@ -21,12 +21,12 @@ node("${NodeName}") {
 	
 	if(isUnix()) {
 		build_dir = "${WORKSPACE}/build"
-		dist_dir = "${WORKSPACE}/dist"
+		dist_dir = "${WORKSPACE}/dist/${BuildType}"
 		dependencies_dir = "${WORKSPACE}/dependencies"
 		dependencies_base = "${WORKSPACE}/dependencies"
 	} else {
-		build_dir = "${WORKSPACE}\\build\\${PlatformTarget}"
-		dist_dir = "${WORKSPACE}\\dist"
+		build_dir = "${WORKSPACE}\\build\\${PlatformTarget}\\${BuildType}"
+		dist_dir = "${WORKSPACE}\\dist\\${BuildType}"
 		if( "${PlatformTarget}" == "x64") {
 			dependencies_dir = "${WORKSPACE}\\dependencies_x64"
 		} else {
@@ -85,9 +85,9 @@ node("${NodeName}") {
 	
 	stage('Update dependencies') {
 		if(isUnix()) {
-			sh "./install_dependencies.sh"
+			sh "./install_dependencies.sh ${BuildOption}"
 		} else {
-			bat "install_dependencies.cmd --platform-target ${PlatformTarget}"
+			bat "install_dependencies.cmd ${BuildOption} --platform-target ${PlatformTarget}"
 		}
 	}
 	

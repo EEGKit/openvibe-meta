@@ -23,7 +23,6 @@ if /i "%1"=="-h" (
 	SHIFT
 	Goto parameter_parse
 ) else if /i "%1"=="--vsbuild" (
-	set generator="Visual Studio 12 2013 Win64" -T "v120"
 	set buildTool=VS
 	SHIFT
 	Goto parameter_parse
@@ -50,8 +49,8 @@ call %baseDir%\windows-init-env.cmd --platform-target %platformTarget%
 echo generator for cmake is: %generator%
 
 if %buildTool% == Ninja (
-	mkdir %baseDir%\build\%platformTarget%
-	cd %baseDir%\build\%platformTarget%
+	mkdir %baseDir%\build\%platformTarget%\%buildType%
+	cd %baseDir%\build\%platformTarget%\%buildType%
 
 	cmake %baseDir% -G %generator% -DCMAKE_BUILD_TYPE=%buildType% -DBUILD_ARCH=%platformTarget% -DCMAKE_INSTALL_PREFIX=%baseDir%\dist\%platformTarget%\%buildType%
 	if not "!ERRORLEVEL!" == "0" goto terminate_error
@@ -62,7 +61,8 @@ if %buildTool% == Ninja (
     mkdir %baseDir%\build-vs\%platformTarget%
     cd %baseDir%\build-vs\%platformTarget%
 
-	cmake %baseDir% -G %generator% -DBUILD_ARCH=%platformTarget% -DCMAKE_INSTALL_PREFIX=%baseDir%\dist\%platformTarget%\
+	rem Use cmakeGenerator initialised by the windows-init-env script
+	cmake %baseDir% -G %cmakeGenerator% -DBUILD_ARCH=%platformTarget% -DCMAKE_INSTALL_PREFIX=%baseDir%\dist\%platformTarget%\
 	if not "!ERRORLEVEL!" == "0" goto terminate_error
 	
 	rem msbuild OpenVIBE.sln /p:Configuration=%buildType% /p:Platform=%platformTarget%
