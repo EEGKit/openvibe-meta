@@ -18,9 +18,11 @@ if /i "%1"=="-h" (
 ) else if /i "%1"=="--debug" (
     set buildType=Debug
     SHIFT
+	Goto parameter_parse
 ) else if /i "%1"=="--release" (
     set buildType=Release
     SHIFT
+	Goto parameter_parse
 ) else if /i "%1"=="--platform-target" (
 	set platformTarget=%2
 	SHIFT
