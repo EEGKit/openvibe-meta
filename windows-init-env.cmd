@@ -29,16 +29,24 @@ if %platformTarget% NEQ x64 (
     )
 )
 
-rem Check for MSVC 2017
+rem Check for MSVC 2017 to 2019
 if exist "%ProgramFiles(x86)%/Microsoft Visual Studio/Installer/" (
-    for /f "usebackq delims=#" %%a in (`"%ProgramFiles(x86)%/Microsoft Visual Studio/Installer/vswhere" -version [15.0^,16.0] -property installationPath`) do (
-        set "visualStudioTools=%%a"
+    for /f "usebackq delims=#" %%a in (`"%ProgramFiles(x86)%/Microsoft Visual Studio/Installer/vswhere" -version [15.0^,17.0] -latest -property catalog_productLineVersion`) do (
+        if ["%%a"] == ["2019"] (
+            set cmakeGenerator="Visual Studio 16 2019"
+        ) else if ["%%a"] == ["2017"] (
+            set cmakeGenerator="Visual Studio 15 2017"
+        )
+        for /f "usebackq delims=#" %%a in (`"%ProgramFiles(x86)%/Microsoft Visual Studio/Installer/vswhere" -version [15.0^,17.0] -latest -property installationPath`) do (
+            set "visualStudioTools=%%a"
+        )
+
         set "vcvarsallPath=/VC/Auxiliary/Build/vcvarsall.bat"
         set configurationType=%platformTarget%
         if %platformTarget% == x64 (
-            set cmakeGenerator="Visual Studio 15 2017" -A %platformTarget%
+            set cmakeGenerator= !cmakeGenerator! -A %platformTarget%
         ) else (
-            set cmakeGenerator="Visual Studio 15 2017" -A Win32
+            set cmakeGenerator= !cmakeGenerator! -A Win32
         )
     )
 )
