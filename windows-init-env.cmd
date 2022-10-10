@@ -35,7 +35,7 @@ if exist "%ProgramFiles(x86)%/Microsoft Visual Studio/Installer/" (
         if ["%%a"] == ["2019"] (
             set cmakeGenerator="Visual Studio 16 2019"
         ) else if ["%%a"] == ["2017"] (
-          set cmakeGenerator="Visual Studio 15 2017"
+            set cmakeGenerator="Visual Studio 15 2017"
         )
         for /f "usebackq delims=#" %%a in (`"%ProgramFiles(x86)%/Microsoft Visual Studio/Installer/vswhere" -version [15.0^,17.0] -latest -property installationPath`) do (
             set "visualStudioTools=%%a"
