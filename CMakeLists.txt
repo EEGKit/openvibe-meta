@@ -19,7 +19,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project(OpenVIBE VERSION ${OPENVIBE_MAJOR_VERSION}.${OPENVIBE_MINOR_VERSION}.${OPENVIBE_PATCH_VERSION})
 
 set(CMAKE_MODULE_PATH_BASE "${CMAKE_SOURCE_DIR}/CMake")
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH_BASE})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH_BASE}
+		              ${CMAKE_MODULE_PATH_BASE}/drivers
+)
 
 include("Utilities")
 include("OvPrint")
@@ -156,6 +158,10 @@ include("FindThirdPartyGTest")
 include("FindThirdPartyLua")
 include("FindThirdPartyTinyXML2")
 include("FindThirdPartyVRPN")
+
+# #############################################################################
+# Find Acquisition Drivers
+include("FindThirdPartyBrainProductsAmplifierAPI")
 
 # #############################################################################
 # Add OpenViBE subdirectories
