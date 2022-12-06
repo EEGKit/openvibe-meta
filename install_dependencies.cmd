@@ -8,12 +8,21 @@ rem -- 3. Install remaining dependencies using the scripts
 rem -- 4. The aim is that over time, all dependencies will be delt with through CMake, and old scripts will be removed.
 
 set platformTarget=x64
+set buildType=Release
 
 :parameter_parse
 if /i "%1"=="-h" (
 	Goto print_usage
 ) else if /i "%1"=="--help" (
 	Goto print_usage
+) else if /i "%1"=="--debug" (
+    set buildType=Debug
+    SHIFT
+	Goto parameter_parse
+) else if /i "%1"=="--release" (
+    set buildType=Release
+    SHIFT
+	Goto parameter_parse
 ) else if /i "%1"=="--platform-target" (
 	set platformTarget=%2
 	SHIFT
@@ -41,6 +50,7 @@ set dependenciesDir=%baseDir%\dependencies
 if /i "%platformTarget%" neq "x86" (
 	set dependenciesDir=%dependenciesDir%_%platformTarget%
 )
+
 set dependenciesDirArchives=%dependenciesDir%\arch
 
 if not EXIST %dependenciesDir% (
@@ -97,13 +107,13 @@ if  "%cmakeNeeded%" == "y" (
     if not exist !cmakeFolder! (
         if not exist !cmakeFolder!.zip (
             rem get archive
-            powershell -Command "Invoke-WebRequest  http://www.cmake.org/files/v%versionMajor%.%versionMinor%/!cmakeFolder!.zip -OutFile !cmakeFolder!".zip
+            powershell -NoProfile -Command "Invoke-WebRequest  http://www.cmake.org/files/v%versionMajor%.%versionMinor%/!cmakeFolder!.zip -OutFile !cmakeFolder!".zip
         )
         rem extract archive
         echo Extract cmake archive
-        powershell -Command "Expand-Archive !cmakeFolder!.zip -DestinationPath ."
+        powershell -NoProfile -Command "Expand-Archive !cmakeFolder!.zip -DestinationPath ."
     )
-    powershell -Command "Copy-Item -Path !cmakeFolder! -Destination %dependenciesDir%\cmake -Recurse -Force"
+    powershell -NoProfile -Command "Copy-Item -Path !cmakeFolder! -Destination %dependenciesDir%\cmake -Recurse -Force"
 
     cd %workDir%
 )
@@ -113,9 +123,10 @@ rem -- Dependencies install - CMake project
 rem -- New preferred method which is cross-platform
 rem -- #############################################################################
 
-mkdir %baseDir%\external_projects\build >NUL
-cd %baseDir%\external_projects\build
+mkdir %baseDir%\external_projects\build\%buildType% >NUL
+cd %baseDir%\external_projects\build\%buildType%
 
+rem Initialise compiler environment and cmakeGenerator variable
 call %baseDir%\windows-init-env.cmd --platform-target %platformTarget%
 
 if /i "%platformTarget%" equ "x64" (
@@ -124,8 +135,8 @@ if /i "%platformTarget%" equ "x64" (
     set generatorPlatform=Win32
 )
 
-cmake .. -G "Visual Studio 12 2013" -A !generatorPlatform! -DEP_DEPENDENCIES_DIR=%dependenciesDir%
-msbuild Dependencies.sln /p:Configuration=Release /p:Platform=!generatorPlatform! /verbosity:minimal
+cmake ..\.. -G %cmakeGenerator% -DCMAKE_BUILD_TYPE=%buildType% -DEP_DEPENDENCIES_DIR=%dependenciesDir%
+msbuild Dependencies.sln /p:Configuration=%buildType% /p:Platform=!generatorPlatform! /verbosity:minimal
 
 rem -- #############################################################################
 rem -- Install remaining dependencies - original script method
@@ -136,7 +147,7 @@ echo Installing dependencies for build target %platformTarget%
 
 rem The dependencies are hosted by Inria
 set PROXYPASS=anon:anon
-set URL=http://openvibe.inria.fr/dependencies/win32/3.2.0/
+set URL=http://openvibe.inria.fr/dependencies/win32/3.4.0/
 
 if not exist "%dependenciesDir%\arch\data" ( mkdir "%dependenciesDir%\arch\data" )
 if not exist "%dependenciesDir%\arch\build\windows" ( mkdir "%dependenciesDir%\arch\build\windows" )

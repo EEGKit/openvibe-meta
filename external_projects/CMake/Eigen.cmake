@@ -34,6 +34,7 @@ list(APPEND ${LIB}_DEPENDENCIES "")
 # #############################################################################
 set(${LIB}_CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=${EP_DEPENDENCIES_DIR}/${LIB}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
 )
 
 # #############################################################################

@@ -6,6 +6,24 @@
 # 3. Install remaining dependencies using the scripts
 # 4. The aim is that over time, all dependencies will be delt with through CMake, and old scripts will be removed.
 
+buildType=Release
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -d|--debug)
+      buildType=Debug
+      shift # past argument
+      ;;
+    -r|--release)
+      buildType=Release
+      shift # past argument
+      ;;
+    -*|--*)
+      echo "Unknown option $1"
+      exit 1
+      ;;
+  esac
+done
 
 # #############################################################################
 # Check for CMake Version
@@ -105,11 +123,11 @@ perl sdk/scripts/linux-install_dependencies.pl --manifest-dir extras/scripts/ --
 # New preferred method which is cross-platform
 # #############################################################################
 
-mkdir -p external_projects/build
-cd external_projects/build
+mkdir -p external_projects/build/$buildType
+cd external_projects/build/$buildType
 
 # generate dependencies project
-cmake .. -DEP_DEPENDENCIES_DIR=$dependencies_dir
+cmake ../.. -DCMAKE_BUILD_TYPE=$buildType
 if [ $? -ne 0 ]; then
   exit 1
 fi

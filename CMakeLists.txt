@@ -10,8 +10,8 @@ cmake_policy(SET CMP0057 NEW)
 
 
 set(OPENVIBE_MAJOR_VERSION 3)
-set(OPENVIBE_MINOR_VERSION 3)
-set(OPENVIBE_PATCH_VERSION 1)
+set(OPENVIBE_MINOR_VERSION 4)
+set(OPENVIBE_PATCH_VERSION 0)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -19,7 +19,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project(OpenVIBE VERSION ${OPENVIBE_MAJOR_VERSION}.${OPENVIBE_MINOR_VERSION}.${OPENVIBE_PATCH_VERSION})
 
 set(CMAKE_MODULE_PATH_BASE "${CMAKE_SOURCE_DIR}/CMake")
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH_BASE})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH_BASE}
+		              ${CMAKE_MODULE_PATH_BASE}/drivers
+)
 
 include("Utilities")
 include("OvPrint")
@@ -154,7 +156,12 @@ include("FindThirdPartyBoost")
 include("FindThirdPartyEigen")
 include("FindThirdPartyGTest")
 include("FindThirdPartyLua")
+include("FindThirdPartyTinyXML2")
 include("FindThirdPartyVRPN")
+
+# #############################################################################
+# Find Acquisition Drivers
+include("FindThirdPartyBrainProductsAmplifierAPI")
 
 # #############################################################################
 # Add OpenViBE subdirectories
