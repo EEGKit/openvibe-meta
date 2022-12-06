@@ -5,6 +5,71 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.0] 2022-12-05
+
+### Added
+
+- Doc: File formats documentation to doxygen (Issue meta#45)
+- SDK: std::string cast to FSettingValueAutoCast (Issue sdk#113)
+- Box: Actions in ArticfactAmplitude box (Issue extras#52)
+- Box: Stimulation Converter box (Issue extras#198)
+- Box: Input Switch box (Issue extras#199)
+- Box: Connectivity Spectrum extract (extras#138)
+- Box: Matrix 2D to Vector (extras#138)
+- Box: Added Burg's method to Connectivity box (extras#138)
+- Box: Added PSD output to AutoRegressive Coefficient box (extras#138)
+- Build: MSVC 2017 support (Issue meta#46, meta#50, sdk#107, extras#136)
+- Build: MSVC 2019 support (Issue meta#57, sdk#138 extras#195)
+- Build: Debug build (Issue meta#51, sdk#115 extras#184)
+- CI: XML comparison applicaiton (Issue extras#133)
+- CI: Non regression tests (Issue extras#132 extras#144)
+
+
+### Changed
+- Driver: BrainProducts actiCHamp and LiveAmp functionnal with latest BrainProducts SDK (Issue meta#58, extras#196)
+- SDK: Remove IObject inheritence from CMatrix and CStimulationSet classes (Issue sdk#120)
+- SDK: CKernel class refactoring (Issue sdk#114)
+- SDK: CIdentifier to use std::string instead of CString (Issue sdk#116 designer#47)
+- SDK: StringDirectories refactring (Issue sdk#117 designer#48 extras#156)
+- SDK: CMemoryBuffer refactoring (Issue sdk#121 designer#49 extras#157)
+- Box: GDFWriter header Physical min/max and Digital min/max (Issue extras#193)
+- Build: TinyXML moved to external projects (Issue meta#52 designer#56 extras#163 extras#186)
+- CI: README.md for CI status on gitlab (Issue meta#54)
+- CI: DartTests refactoring (Issue extras#127)
+- CI: Update CSV comparison application (Issue extras#125)
+- Doc: Update copyright mention (Issue sdk#128 designer#51 extras#179)
+- Run: Update launch scripts (Issue designer#59)
+- Dev: Update skeleton-generator application (Issue extras#165)
+
+### Fixed
+
+- Box: CSV File Writer/Reader linebreaks handling in labels (Issue sdk#99})
+- Box: CSV File Writer/Reader to handle only stimulations (Issue sdk#100)
+- Box: Revert C++14 feature - too advance (Issue sdk#108)
+- Box: NoiseGenerator default setting (Issue extras#130)
+- Box: KeyboardStimulator string to integer conversion (Issue extras#137)
+- Box: InverseDWT header sent header multiple times (extras#143)
+- Box: StimulationValidator sent header multiple times (extras#135)
+- Box: Sampling frequency in ArtifactAmplitude (extras#180)
+- Box: Sampling rate referencing in IFFT and FastICA boxes (extras#181)
+- Build: Powershell call on windows install dependencies script (issue meta#44)
+- Build: windows build env init for x86 (issue meta#49)
+- Build: windows install-dependencies param parsing (Issue meta#56)
+- Build: Remove implicit cast warnings (Issue sdk#103 sdk#104 designer#40 designer#42 designer#43)
+- Build: Remove CLang warnings (Issue sdk#126 sdk#129 sdk#130 sdk#131, sdk#133 sdk#134 designer#57 designer#58 extras#139 extras#140 extras#148 extras#150 extras#159 extras#160 extras#161 extras#169-extras#177 extras#187-extras#190)
+- Build: Remove warning in unit-test (Issue sdk#118 extras#155)
+- Doc: pybox-manager documentation generation (extras#182)
+
+### Removed
+- Box: Version descriptors (Issue sdk#127 designer#50 extras#178)
+- Box: Box description CString casts (Issue sdk#109 extras#141)
+- SDK: XML module legacy proxy (Issue sdk#125)
+- SDK: Remove unused Date module (Issue sdk#136 designer#53)
+- Dev: Redundant semicolon after macro calls (Issue sdk#112 extras#151)
+- Dev: Eigen-found guards in dependent classes (Issue sdk#122 extras#158)
+- Build: Unneeded library links (Issue sdk#137 designer#55 extras#185)
+- Build: NSIS script vcredist install (extras#194)
+
 ## [3.3.1] 2022-07-11
 
 ### Fixed
